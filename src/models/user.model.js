@@ -7,6 +7,13 @@ const UserCreateSchema = Joi.object({
     password: Joi.string().required(),
 });
 
+const UserUpdateSchema = Joi.object({
+    name: Joi.string().min(3).max(50).optional(),
+    email: Joi.string().email().optional(),
+    password: Joi.string().optional(),
+}).or("name", "email", "password").required();
+// At least one of these keys must be in the object to be valid.
+
 const UserDataModel = mongoose.model("User", mongoose.Schema({
     name: { type: String },
     email: { type: String, required: true, unique: true },
@@ -20,11 +27,13 @@ class UserResModel {
         this.name = user.name;
         this.username = user.username;
         this.email = user.email;
+        this.role = user.role;
     }
 }
 
 module.exports = {
     UserCreateSchema,
     UserDataModel,
-    UserResModel
+    UserResModel,
+    UserUpdateSchema
 };

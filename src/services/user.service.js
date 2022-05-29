@@ -11,6 +11,26 @@ const save = async (payload) => {
     }
 };
 
+const update = async (id, payload) => {
+    try {
+        const updateUser = await UserDataModel.findByIdAndUpdate(id, payload, { new: true });
+        return new UserResModel(updateUser);
+    } catch (err) {
+        throw new InternalSeverError(err.message);
+    }
+}
+
+const giveAll = async () => {
+    try {
+        const users = await UserDataModel.find();
+        return users.map(user => new UserResModel(user));
+    } catch (err) {
+        throw new InternalSeverError(err.message);
+    }
+}
+
 module.exports = {
     save,
+    update,
+    giveAll
 }
