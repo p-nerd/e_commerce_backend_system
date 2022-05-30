@@ -1,5 +1,5 @@
 const { UserDataModel, UserResModel } = require("../models/user.model");
-const { InternalSeverError } = require("../utils/errors.util");
+const { InternalSeverError, NotFoundError } = require("../utils/errors.util");
 
 const save = async (payload) => {
     try {
@@ -29,8 +29,37 @@ const giveAll = async () => {
     }
 }
 
+const giveOne = async (id) => {
+    try {
+        const user = await UserDataModel.findById(id);
+        if (!user)
+            throw new NotFoundError("user not found by the id");
+        return new UserResModel(user);
+    } catch (err) {
+        if (err.status && err.status === 404)
+            throw err;
+        throw new InternalSeverError(err.message);
+    }
+};
+
+const deleteOne = async (id) => {
+    try {
+        const user = await UserDataModel.findById(id);
+        if (!user)
+            throw new NotFoundError("user not found by the id");
+        await UserDataModel.deleteOne({ _id: id });
+        return;
+    } catch (err) {
+        if (err.status && err.status === 404)
+            throw err;
+        throw new InternalSeverError(err.message);
+    }
+};
+
 module.exports = {
     save,
     update,
-    giveAll
+    giveAll,
+    giveOne,
+    deleteOne
 }

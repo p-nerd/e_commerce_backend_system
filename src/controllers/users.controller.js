@@ -1,5 +1,5 @@
 const userRouter = require("express").Router();
-const validate = require("../middlewares/validate");
+const { validateId, validateJoiSchema } = require("../middlewares/validate");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const userService = require("./../services/user.service");
 const crypto = require("./../utils/crypto.util");
@@ -16,7 +16,9 @@ const createUser = async (req, res, next) => {
 
 const updateOneUser = async (req, res, next) => {
     try {
-        const updatedData = await userService.update(req.params.id, req.body);
+        const id = req.params.id;
+        const payload = req.body;
+        const updatedData = await userService.update(id, payload);
         return res.status(200).send(updatedData);
     } catch (err) {
         return next(err);
@@ -32,15 +34,36 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
+const getOneUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const user = await userService.giveOne(id);
+        return res.status(200).send(user);
+    } catch (err) {
+        return next(err);
+    }
+}
+
+const deleteUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        await userService.deleteOne(id);
+        return res.status(200).send("user delete successfully");
+    } catch (err) {
+        return next(err);
+    }
+}
+
 userRouter
     .route("/")
-    .post([validate(UserCreateSchema)], createUser)
+    .post([validateJoiSchema(UserCreateSchema)], createUser)
     .get(getAllUsers);
 
 userRouter
     .route("/:id")
-    .patch([validate(UserUpdateSchema)], updateOneUser)
-// .get(getOneUser)
-// .delete(deleteOneUser)
+    .all(validateId)
+    .patch([validateJoiSchema(UserUpdateSchema)], updateOneUser)
+    .get(getOneUser)
+    .delete(deleteUser)
 
 module.exports = userRouter;
