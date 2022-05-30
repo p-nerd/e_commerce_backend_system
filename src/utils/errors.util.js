@@ -7,6 +7,14 @@ class GeneralError extends Error {
     }
 }
 
+class BadRequestError extends GeneralError {
+    constructor(message) {
+        super(message);
+        this.name = "Bad Request Error";
+        this.status = 400;
+    }
+}
+
 class NotFoundError extends GeneralError {
     constructor(message) {
         super(message);
@@ -62,5 +70,6 @@ module.exports = {
     DuplicateKeyError,
     InternalSeverError,
     UnauthorizedError,
-    ForbiddenError
+    ForbiddenError,
+    BadRequestError
 }

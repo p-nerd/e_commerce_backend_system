@@ -1,4 +1,5 @@
 const userRouter = require("express").Router();
+const { authenticate } = require("../middlewares/authenticate.middleware");
 const { validateId, validateJoiSchema } = require("../middlewares/validate");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const userService = require("./../services/user.service");
@@ -62,7 +63,7 @@ userRouter
 userRouter
     .route("/:id")
     .all(validateId)
-    .patch([validateJoiSchema(UserUpdateSchema)], updateOneUser)
+    .patch([validateJoiSchema(UserUpdateSchema), authenticate], updateOneUser)
     .get(getOneUser)
     .delete(deleteUser)
 
