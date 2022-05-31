@@ -1,6 +1,6 @@
 const userRouter = require("express").Router();
-const { authenticate } = require("../middlewares/authenticate.middleware");
-const { validateId, validateJoiSchema } = require("../middlewares/validate");
+const { authenticate, loggedUserOrAdmin, admin, rolePermission } = require("../middlewares/authorization.middleware");
+const { validateId, validateJoiSchema } = require("../middlewares/validate.middleware");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const userService = require("./../services/user.service");
 const crypto = require("./../utils/crypto.util");
@@ -28,6 +28,7 @@ const updateOneUser = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
     try {
+        console.log(req.user);
         const allUsers = await userService.giveAll();
         return res.status(200).send(allUsers);
     } catch (err) {
@@ -43,12 +44,11 @@ const getOneUser = async (req, res, next) => {
     } catch (err) {
         return next(err);
     }
-}
+};
 
 const deleteUser = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        await userService.deleteOne(id);
+        await userService.deleteOne(req.params.id);
         return res.status(200).send("user delete successfully");
     } catch (err) {
         return next(err);
@@ -58,13 +58,13 @@ const deleteUser = async (req, res, next) => {
 userRouter
     .route("/")
     .post([validateJoiSchema(UserCreateSchema)], createUser)
-    .get(getAllUsers);
+    .get([authenticate, admin], getAllUsers);
 
 userRouter
     .route("/:id")
     .all(validateId)
-    .patch([validateJoiSchema(UserUpdateSchema), authenticate], updateOneUser)
+    .patch([validateJoiSchema(UserUpdateSchema), authenticate, loggedUserOrAdmin, rolePermission], updateOneUser)
     .get(getOneUser)
-    .delete(deleteUser)
+    .delete([authenticate, loggedUserOrAdmin], deleteUser)
 
 module.exports = userRouter;

@@ -3,11 +3,10 @@ const { BadRequestError, NotFoundError, UnauthorizedError, InternalSeverError } 
 const crypto = require("./../utils/crypto.util");
 const jwt = require("./../utils/jwt.util");
 
-const giveOneEmail = async (email) => {
+const getOneEmail = async (email) => {
     try {
         const user = await UserDataModel.findOne({ email });
         if (!user) throw new NotFoundError("user not found by the email");
-        console.log(user);
         return user;
     } catch (err) {
         if (err.status && err.status === 404) throw err;
@@ -30,8 +29,8 @@ const generateToken = async (user) => {
     try {
         const jwtPayload = {
             id: user.id,
-            username: user.username,
             email: user.email,
+            role: user.role
         };
         return await jwt.getToken(jwtPayload);
     } catch (err) {
@@ -49,7 +48,7 @@ const compareToken = async (token) => {
 }
 
 module.exports = {
-    giveOneEmail,
+    getOneEmail: getOneEmail,
     comparePassword,
     generateToken,
     compareToken,
