@@ -2,6 +2,7 @@ const userRouter = require("express").Router();
 const { authenticate, loggedUserOrAdmin, admin, rolePermission } = require("../middlewares/authorization.middleware");
 const { validateId, validate } = require("../middlewares/validate.middleware");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
+const profileService = require("../services/profile.service");
 const userService = require("./../services/user.service");
 const crypto = require("./../utils/crypto.util");
 
@@ -47,6 +48,10 @@ const getOneUser = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
+    try {
+        await profileService.getOneByUserId(req.params.id);
+        await profileService.deleteOneByUserId(req.params.id);
+    } catch (err) { }
     try {
         await userService.deleteOne(req.params.id);
         return res.status(200).send("user delete successfully");

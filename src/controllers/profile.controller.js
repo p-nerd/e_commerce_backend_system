@@ -21,7 +21,8 @@ const createProfile = async (req, res, next) => {
 
 const getProfile = async (req, res, next) => {
     try {
-        const profile = await profileService.getOneByUserId(req.user._id);
+        const userId = req.query.user && req.user.role !== "user" ? req.query.user : req.user._id;
+        const profile = await profileService.getOneByUserId(userId);
         return res.status(200).send(profile);
     } catch (err) {
         return next(err);
