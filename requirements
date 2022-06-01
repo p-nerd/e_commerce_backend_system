@@ -32,7 +32,7 @@ model("User", schema)
 
 -> product
     # name
-    # descriptionm
+    # description
     # price
     # catgory 
     {
