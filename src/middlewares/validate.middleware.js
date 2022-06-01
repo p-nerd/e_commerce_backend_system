@@ -4,7 +4,7 @@ const concatErrorsDetails = (details) =>
     details.reduce((total, current) =>
         total + current.message, "");
 
-const validateJoiSchema = (schema) => (req, res, next) => {
+const validate = (schema) => (req, res, next) => {
     const result = schema.validate(req.body);
     if (result.error) {
         const errorMessages = concatErrorsDetails(result.error.details);
@@ -22,5 +22,5 @@ const validateId = (req, res, next) => {
 
 module.exports = {
     validateId,
-    validateJoiSchema
+    validate
 }

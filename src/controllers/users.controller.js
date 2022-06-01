@@ -1,6 +1,6 @@
 const userRouter = require("express").Router();
 const { authenticate, loggedUserOrAdmin, admin, rolePermission } = require("../middlewares/authorization.middleware");
-const { validateId, validateJoiSchema } = require("../middlewares/validate.middleware");
+const { validateId, validate } = require("../middlewares/validate.middleware");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const userService = require("./../services/user.service");
 const crypto = require("./../utils/crypto.util");
@@ -57,13 +57,13 @@ const deleteUser = async (req, res, next) => {
 
 userRouter
     .route("/")
-    .post([validateJoiSchema(UserCreateSchema)], createUser)
+    .post([validate(UserCreateSchema)], createUser)
     .get([authenticate, admin], getAllUsers);
 
 userRouter
     .route("/:id")
     .all(validateId)
-    .patch([validateJoiSchema(UserUpdateSchema), authenticate, loggedUserOrAdmin, rolePermission], updateOneUser)
+    .patch([validate(UserUpdateSchema), authenticate, loggedUserOrAdmin, rolePermission], updateOneUser)
     .get(getOneUser)
     .delete([authenticate, loggedUserOrAdmin], deleteUser)
 

@@ -25,8 +25,7 @@ const UserDataModel = mongoose.model("User", mongoose.Schema({
 class UserResModel {
     constructor(user) {
         this._id = user._id;
-        this.name = user.name;
-        this.username = user.username;
+        if (user.name) this.name = user.name;
         this.email = user.email;
         this.role = user.role;
     }

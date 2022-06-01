@@ -1,5 +1,5 @@
 const { authenticate } = require("../middlewares/authorization.middleware");
-const { validateJoiSchema } = require("../middlewares/validate.middleware");
+const { validate } = require("../middlewares/validate.middleware");
 const { LoginSchema } = require("../models/auth.model");
 const authService = require("./../services/auth.service");
 const authRouter = require("express").Router();
@@ -26,7 +26,7 @@ const updateToken = async (req, res, next) => {
 
 authRouter
     .route("/")
-    .post([validateJoiSchema(LoginSchema)], loginUser)
+    .post([validate(LoginSchema)], loginUser)
     .patch([authenticate], updateToken);
 
 module.exports = authRouter;
