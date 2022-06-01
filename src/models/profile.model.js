@@ -1,13 +1,9 @@
-const mongoose = require("mongoose");
+const { model, Schema } = require("mongoose");
+const { ObjectId } = Schema.Types;
 const Joi = require("joi");
 
-const ProfileDataModel = mongoose.model("Profile", mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        unique: true,
-        required: true,
-        ref: "User"
-    },
+const ProfileDataModel = model("Profile", Schema({
+    user: { type: ObjectId, unique: true, required: true, ref: "User" },
     phone: { type: Number, required: true },
     address1: { type: String, required: true },
     address2: { type: String },
@@ -51,5 +47,5 @@ module.exports = {
     ProfileDataModel,
     ProfileCreateSchema,
     ProfileResModel,
-    ProfileUpdateSchema,
+    ProfileUpdateSchema
 }

@@ -6,6 +6,6 @@ const LoginSchema = Joi.object({
 });
 
 module.exports = {
-    LoginSchema,
+    LoginSchema
 }
 

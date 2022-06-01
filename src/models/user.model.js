@@ -1,5 +1,12 @@
-const mongoose = require("mongoose");
+const { model, Schema } = require("mongoose");
 const Joi = require("joi");
+
+const UserDataModel = model("User", Schema({
+    name: { type: String },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["user", "manager", "admin"], default: "user" }
+}));
 
 const UserCreateSchema = Joi.object({
     name: Joi.string().min(3).max(50),
@@ -14,13 +21,6 @@ const UserUpdateSchema = Joi.object({
     role: Joi.string().optional().valid("user", "manager", "admin"),
 }).or("name", "email", "password").required();
 // At least one of these keys must be in the object to be valid.
-
-const UserDataModel = mongoose.model("User", mongoose.Schema({
-    name: { type: String },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["user", "manager", "admin"], default: "user" }
-}));
 
 class UserResModel {
     constructor(user) {
