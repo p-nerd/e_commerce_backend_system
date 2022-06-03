@@ -19,8 +19,7 @@ const UserUpdateSchema = Joi.object({
     email: Joi.string().email().optional(),
     password: Joi.string().optional(),
     role: Joi.string().optional().valid("user", "manager", "admin"),
-}).or("name", "email", "password").required();
-// At least one of these keys must be in the object to be valid.
+}).or("name", "email", "password", "role").required();
 
 class UserResModel {
     constructor(user) {

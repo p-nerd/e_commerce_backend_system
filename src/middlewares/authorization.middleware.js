@@ -1,5 +1,6 @@
 const authService = require("../services/auth.service");
 const { UnauthorizedError } = require("../utils/errors.util");
+const { roles } = require("../utils/roles.util");
 
 const authenticate = async (req, res, next) => {
     try {
@@ -18,13 +19,19 @@ const loggedUserOrAdmin = async (req, res, next) => {
     if (req.params.id !== req.user.id && req.user.role !== "admin")
         return next(new UnauthorizedError("Id not matching or not admin user"));
     return next();
-}
+};
 
 const admin = async (req, res, next) => {
-    if (req.user.role !== "admin")
+    if (roles[req.user.role] > roles["admin"])
         return next(new UnauthorizedError("You have to admin user"));
     return next();
-}
+};
+
+const manager = async (req, res, next) => {
+    if (roles[req.user.role] > roles["manager"])
+        return next(new UnauthorizedError("You must be manager user"));
+    return next();
+};
 
 const rolePermission = (req, res, next) => {
     if (!req.body.role) return next();
@@ -34,6 +41,6 @@ const rolePermission = (req, res, next) => {
         return next(new UnauthorizedError("You can't make any one admin"));
     if (req.user.role === "admin") return next();
     return next(new UnauthorizedError("you have to be admin"));
-}
+};
 
-module.exports = { authenticate, loggedUserOrAdmin, admin, rolePermission };
+module.exports = { authenticate, loggedUserOrAdmin, admin, rolePermission, manager };

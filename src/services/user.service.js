@@ -2,7 +2,7 @@ const { UserDataModel, UserResModel } = require("../models/user.model");
 const { InternalSeverError, NotFoundError, BadRequestError } = require("../utils/errors.util");
 
 class UserService {
-    save = async (payload) => {
+    saveOne = async (payload) => {
         try {
             const user = new UserDataModel(payload);
             const savedUser = await user.save();
@@ -12,7 +12,7 @@ class UserService {
             throw new InternalSeverError(err.message);
         }
     };
-    update = async (id, payload) => {
+    updateOne = async (id, payload) => {
         try {
             const updateUser = await UserDataModel.findByIdAndUpdate(id, payload, { new: true });
             return new UserResModel(updateUser);
@@ -20,7 +20,7 @@ class UserService {
             throw new InternalSeverError(err.message);
         }
     }
-    giveAll = async () => {
+    giveMany = async () => {
         try {
             const users = await UserDataModel.find();
             return users.map(user => new UserResModel(user));
