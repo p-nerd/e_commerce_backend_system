@@ -48,7 +48,6 @@ const deleteCategory = async (req, res, next) => {
 
 const updateCategory = async (req, res, next) => {
     try {
-        console.log(req.body);
         await categoryService.getOneByName(req.params.categoryName);
         const updatedCategory = await categoryService.update(req.params.categoryName, req.body);
         return res.status(200).send(updatedCategory);

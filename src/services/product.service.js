@@ -43,6 +43,15 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
+    getPrice = async (productId) => {
+        try {
+            const product = await this.getOneById(productId);
+            return product.price;
+        } catch (err) {
+            if (err.status && err.status === 404) throw err;
+            throw new InternalSeverError(err.message);
+        }
+    }
 }
 
 const productService = new ProductService();

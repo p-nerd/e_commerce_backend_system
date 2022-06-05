@@ -5,7 +5,7 @@ const { ObjectId } = Schema.Types;
 const ProductDataModel = model("Product", Schema({
     name: { type: String, required: true },
     description: { type: String },
-    price: { type: Number },
+    price: { type: Number, default: 0 },
     category: { type: [ObjectId], required: true, ref: "Category" },
     quantity: { type: Number, default: 0 },
     photo: { type: [String] },
