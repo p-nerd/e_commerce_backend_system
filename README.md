@@ -16,7 +16,7 @@ $ git clone https://github.com/shihab4t/e-commerce-backend-system.git
 $ cd e-commerce-backend-system
 ```
 
-step #2: Copy the `.env.example` to `.env` file
+step #2: Copy the `.env.example` to `.env` file and make your changes
 
 ```sh
 $ cp .env.example .env
@@ -25,12 +25,12 @@ $ cp .env.example .env
 step #3: Install dependencies
 
 ```sh
-npm install -g yarn
-yarn install
+$ npm install -g yarn
+$ yarn install
 ```
 
 step #4: now you can run the server in development mode
 
 ```sh
-yarn start:dev
+$ yarn start:dev
 ```
