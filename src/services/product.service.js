@@ -1,5 +1,5 @@
 const { ProductDataModel, ProductResModel, ProductCreateSchema } = require("../models/product.model");
-const { InternalSeverError } = require("../utils/errors.util");
+const { InternalSeverError, NotFoundError } = require("../utils/errors.util");
 
 class ProductService {
     saveOne = async (payload) => {
@@ -15,6 +15,30 @@ class ProductService {
         try {
             const products = await ProductDataModel.find();
             return products.map((product) => new ProductResModel(product));
+        } catch (err) {
+            throw new InternalSeverError(err.message);
+        }
+    };
+    getOneById = async (productId) => {
+        try {
+            const product = await ProductDataModel.findOne({ _id: productId });
+            if (!product) throw new NotFoundError("product not found by the id");
+            return new ProductResModel(product);
+        } catch (err) {
+            if (err.status && err.status === 404) throw err;
+            throw new InternalSeverError(err.message);
+        }
+    };
+    deleteOneById = async (productId) => {
+        try {
+            return await ProductDataModel.deleteOne({ _id: productId });
+        } catch (err) {
+            throw new InternalSeverError(err.message);
+        }
+    };
+    updateOneById = async (productId, payload) => {
+        try {
+            return await ProductDataModel.findOneAndUpdate({ _id: productId }, payload, { new: true });
         } catch (err) {
             throw new InternalSeverError(err.message);
         }

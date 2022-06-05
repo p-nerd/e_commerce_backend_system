@@ -20,6 +20,15 @@ const ProductCreateSchema = Joi.object({
     photo: Joi.array().items(Joi.string()),
 });
 
+const ProductUpdateSchema = Joi.object({
+    name: Joi.string().min(3).max(255).optional(),
+    description: Joi.string().optional(),
+    price: Joi.number().optional(),
+    category: Joi.array().items(Joi.string()).min(1).optional(),
+    quantity: Joi.number().optional(),
+    photo: Joi.array().items(Joi.string()).optional,
+}).or("name", "description", "price", "category", "quantity").required();
+
 class ProductResModel {
     constructor(user) {
         this._id = user._id;
@@ -36,4 +45,5 @@ module.exports = {
     ProductDataModel,
     ProductCreateSchema,
     ProductResModel,
+    ProductUpdateSchema
 }
