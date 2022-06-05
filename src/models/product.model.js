@@ -24,11 +24,16 @@ class ProductResModel {
     constructor(user) {
         this._id = user._id;
         this.name = user.name;
-        if (user.description) 
+        if (user.description) this.user = user.user;
+        if (user.price) this.price = user.price;
+        this.category = user.category;
+        if (user.quantity) this.quantity = user.quantity;
+        if (user.photo) this.photo = user.photo;
     }
 }
 
 module.exports = {
     ProductDataModel,
     ProductCreateSchema,
+    ProductResModel,
 }
