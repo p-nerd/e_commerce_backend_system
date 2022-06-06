@@ -1,12 +1,10 @@
-const redisPackage = require("redis");
-
 class RedisService {
     constructor(uri) {
-        this.client = redisPackage.createClient({ url: uri });
+        this.client = require("redis").createClient({ url: uri });
         this.client.on("error", (err) => console.log("Redis not connected\n", err));
         this.client.connect().then(() => console.log("Redis connected successfully"));
     };
-    set = async function (key, value, ex = 3600) {
+    set = async function (key, value, ex = 1800) {
         return await this.client.SET(key, value, { EX: ex });
     };
     get = async function (key) {

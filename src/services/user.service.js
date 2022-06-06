@@ -12,9 +12,9 @@ class UserService {
             throw new InternalSeverError(err.message);
         }
     };
-    updateOne = async (id, payload) => {
+    updateOne = async (userId, payload) => {
         try {
-            const updateUser = await UserDataModel.findByIdAndUpdate(id, payload, { new: true });
+            const updateUser = await UserDataModel.findByIdAndUpdate(userId, payload, { new: true });
             return new UserResModel(updateUser);
         } catch (err) {
             throw new InternalSeverError(err.message);
@@ -28,9 +28,9 @@ class UserService {
             throw new InternalSeverError(err.message);
         }
     }
-    giveOne = async (id) => {
+    giveOne = async (userId) => {
         try {
-            const user = await UserDataModel.findById(id);
+            const user = await UserDataModel.findById(userId);
             if (!user)
                 throw new NotFoundError("user not found by the id");
             return new UserResModel(user);
@@ -40,12 +40,12 @@ class UserService {
             throw new InternalSeverError(err.message);
         }
     };
-    deleteOne = async (id) => {
+    deleteOne = async (userId) => {
         try {
-            const user = await UserDataModel.findById(id);
+            const user = await UserDataModel.findById(userId);
             if (!user)
                 throw new NotFoundError("user not found by the id");
-            await UserDataModel.deleteOne({ _id: id });
+            await UserDataModel.deleteOne({ _id: userId });
             return;
         } catch (err) {
             if (err.status && err.status === 404)

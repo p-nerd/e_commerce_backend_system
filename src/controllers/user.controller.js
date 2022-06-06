@@ -45,12 +45,13 @@ const getOneUser = async (req, res, next) => {
 };
 
 const deleteUser = async (req, res, next) => {
+    const userId = req.params.id;
     try {
-        await profileService.getOneByUserId(req.params.id);
-        await profileService.deleteOneByUserId(req.params.id);
+        await profileService.getOneByUserId(userId);
+        await profileService.deleteOneByUserId(userId);
     } catch (err) { }
     try {
-        await userService.deleteOne(req.params.id);
+        await userService.deleteOne(userId);
         return res.status(200).send("user delete successfully");
     } catch (err) {
         return next(err);

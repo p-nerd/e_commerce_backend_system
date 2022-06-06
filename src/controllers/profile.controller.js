@@ -12,7 +12,7 @@ const createProfile = async (req, res, next) => {
     } catch (err) { }
     try {
         req.body.user = req.user._id;
-        const profile = await profileService.save(req.body);
+        const profile = await profileService.saveOne(req.body);
         return res.status(201).send(profile);
     } catch (err2) {
         return next(err2);
