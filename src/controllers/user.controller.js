@@ -1,14 +1,14 @@
 const userRouter = require("express").Router();
 const profileService = require("../services/profile.service");
 const userService = require("./../services/user.service");
-const crypto = require("./../utils/crypto.util");
 const { validateId, validate } = require("../middlewares/validate.middleware");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const { authenticate, loggedUserOrAdmin, admin, rolePermission } = require("../middlewares/authorization.middleware");
+const cryptoService = require("../services/crypto.service");
 
 const createUser = async (req, res, next) => {
     try {
-        req.body.password = await crypto.hash(req.body.password);
+        req.body.password = await cryptoService.hash(req.body.password);
         const savedUser = await userService.saveOne(req.body);
         return res.status(201).send(savedUser);
     } catch (err) {

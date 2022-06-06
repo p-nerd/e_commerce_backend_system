@@ -1,7 +1,7 @@
 const { UserDataModel } = require("./../models/user.model");
 const { BadRequestError, NotFoundError, UnauthorizedError, InternalSeverError } = require("./../utils/errors.util");
-const crypto = require("./../utils/crypto.util");
-const jwt = require("./../utils/jwt.util");
+const cryptoService = require("./crypto.service");
+const jwtService = require("./jwt.service");
 
 class AuthService {
     getOneEmail = async (email) => {
@@ -16,7 +16,7 @@ class AuthService {
     };
     comparePassword = async (password, hash) => {
         try {
-            const result = await crypto.compare(password, hash);
+            const result = await cryptoService.compare(password, hash);
             if (!result) throw new BadRequestError("password not matching");
             return;
         } catch (err) {
@@ -31,7 +31,7 @@ class AuthService {
                 email: user.email,
                 role: user.role
             };
-            return await jwt.getToken(jwtPayload);
+            return await jwtService.getToken(jwtPayload);
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
@@ -39,7 +39,7 @@ class AuthService {
     compareToken = async (token) => {
         try {
             if (!token) throw new Error("Token not found");
-            return await jwt.tokenCompare(token);
+            return await jwtService.tokenCompare(token);
         } catch (err) {
             throw new UnauthorizedError(err.message);
         }
