@@ -5,10 +5,10 @@ class RedisService {
         this.client.connect().then(() => console.log("Redis connected successfully"));
     };
     set = async function (key, value, ex = 1800) {
-        return await this.client.SET(key, value, { EX: ex });
+        return await this.client.SET(key, JSON.stringify(value), { EX: ex });
     };
     get = async function (key) {
-        return await this.client.GET(key);
+        return JSON.parse(await this.client.GET(key));
     };
     ttl = async function (key) {
         return await this.client.TTL(key);

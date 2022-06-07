@@ -3,6 +3,8 @@ const productService = require("./../services/product.service");
 const { authenticate, manager } = require("../middlewares/authorization.middleware");
 const { ProductCreateSchema, ProductUpdateSchema } = require("../models/product.model");
 const { validate } = require("./../middlewares/validate.middleware");
+const redisService = require("../services/redis.service");
+const { cacheProduct } = require("../middlewares/cache.middleware");
 
 const createProduct = async (req, res, next) => {
     try {
@@ -25,6 +27,7 @@ const getProducts = async (req, res, next) => {
 const getProduct = async (req, res, next) => {
     try {
         const product = await productService.getOne(req.params.productId);
+        await redisService.set(product._id, product)
         return res.status(200).send(product);
     } catch (err) {
         return next(err);
@@ -57,7 +60,7 @@ productRouter
 
 productRouter
     .route("/:productId")
-    .get([authenticate], getProduct)
+    .get([authenticate, cacheProduct], getProduct)
     .delete([authenticate], deleteProduct)
     .patch([validate(ProductUpdateSchema), authenticate, manager], updateProduct);
 

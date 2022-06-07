@@ -31,7 +31,7 @@ const ProductDataModel = model("Product", Schema({
 
 class ProductResModel {
     constructor(user) {
-        this._id = user._id;
+        this._id = user.id;
         this.name = user.name;
         if (user.description) this.user = user.user;
         if (user.price) this.price = user.price;
