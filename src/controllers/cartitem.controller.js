@@ -11,7 +11,7 @@ const createCartitem = async (req, res, next) => {
         req.body.user = req.user.id;
         req.body.price = await productService.getPrice(req.body.product)
         req.body.total_price = req.body.count * req.body.price;
-        const cartitem = await cartitemService.save(req.body);
+        const cartitem = await cartitemService.saveOne(req.body);
         return res.status(201).send(cartitem);
     } catch (err) {
         return next(err);

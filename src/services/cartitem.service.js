@@ -2,7 +2,7 @@ const { CartitemDataModel, CartitemResModel } = require("../models/cartitem.mode
 const { InternalSeverError } = require("../utils/errors.util");
 
 class CartitemService {
-    save = async (payload) => {
+    saveOne = async (payload) => {
         try {
             const cartitem = new CartitemDataModel(payload)
             const cartItemSaved = await cartitem.save();

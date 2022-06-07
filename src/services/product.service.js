@@ -11,7 +11,7 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
-    getAll = async () => {
+    getMany = async () => {
         try {
             const products = await ProductDataModel.find();
             return products.map((product) => new ProductResModel(product));
@@ -19,7 +19,7 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
-    getOneById = async (productId) => {
+    getOne = async (productId) => {
         try {
             const product = await ProductDataModel.findOne({ _id: productId });
             if (!product) throw new NotFoundError("product not found by the id");
@@ -29,14 +29,14 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
-    deleteOneById = async (productId) => {
+    deleteOne = async (productId) => {
         try {
             return await ProductDataModel.deleteOne({ _id: productId });
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
     };
-    updateOneById = async (productId, payload) => {
+    updateOne = async (productId, payload) => {
         try {
             return await ProductDataModel.findOneAndUpdate({ _id: productId }, payload, { new: true });
         } catch (err) {
@@ -45,7 +45,7 @@ class ProductService {
     };
     getPrice = async (productId) => {
         try {
-            const product = await this.getOneById(productId);
+            const product = await this.getOne(productId);
             return product.price;
         } catch (err) {
             if (err.status && err.status === 404) throw err;

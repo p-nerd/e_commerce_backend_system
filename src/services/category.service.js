@@ -2,7 +2,7 @@ const { CategoryDataModel, CategoryResModel } = require("./../models/category.mo
 const { InternalSeverError, NotFoundError } = require("./../utils/errors.util");
 
 class CategoryService {
-    save = async (payload) => {
+    saveOne = async (payload) => {
         try {
             const category = new CategoryDataModel(payload);
             const savedCategory = await category.save();
@@ -11,7 +11,7 @@ class CategoryService {
             throw new InternalSeverError(err.message);
         }
     };
-    getAll = async () => {
+    getMany = async () => {
         try {
             const categories = await CategoryDataModel.find();
             return categories.map((category) => new CategoryResModel(category));

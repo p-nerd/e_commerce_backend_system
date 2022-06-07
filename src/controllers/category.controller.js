@@ -11,7 +11,7 @@ const createCategory = async (req, res, next) => {
         return next(new BadRequestError("category already exits"));
     } catch (err) { }
     try {
-        const category = await categoryService.save(req.body);
+        const category = await categoryService.saveOne(req.body);
         return res.status(201).send(category);
     } catch (err) {
         return next(err);
@@ -20,7 +20,7 @@ const createCategory = async (req, res, next) => {
 
 const getCategories = async (req, res, next) => {
     try {
-        const categories = await categoryService.getAll();
+        const categories = await categoryService.getMany();
         return res.status(200).send(categories);
     } catch (err) {
         return next(err);

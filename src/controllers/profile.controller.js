@@ -42,7 +42,7 @@ const deleteProfile = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
     try {
         await profileService.getOneByUserId(req.user._id);
-        const updatedProfile = await profileService.update(req.user._id, req.body);
+        const updatedProfile = await profileService.updateByUserId(req.user._id, req.body);
         return res.status(200).send(updatedProfile);
     } catch (err) {
         return next(err);

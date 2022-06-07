@@ -1,13 +1,6 @@
 const { model, Schema } = require("mongoose");
 const Joi = require("joi");
 
-const UserDataModel = model("User", Schema({
-    name: { type: String },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["user", "manager", "admin"], default: "user" }
-}));
-
 const UserCreateSchema = Joi.object({
     name: Joi.string().min(3).max(50),
     email: Joi.string().email().required(),
@@ -21,6 +14,13 @@ const UserUpdateSchema = Joi.object({
     role: Joi.string().optional().valid("user", "manager", "admin"),
 }).or("name", "email", "password", "role").required();
 
+const UserDataModel = model("User", Schema({
+    name: { type: String },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["user", "manager", "admin"], default: "user" }
+}));
+
 class UserResModel {
     constructor(user) {
         this._id = user._id;
@@ -32,7 +32,7 @@ class UserResModel {
 
 module.exports = {
     UserCreateSchema,
+    UserUpdateSchema,
     UserDataModel,
     UserResModel,
-    UserUpdateSchema
 };

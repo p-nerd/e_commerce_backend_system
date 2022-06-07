@@ -15,7 +15,7 @@ const createProduct = async (req, res, next) => {
 
 const getProducts = async (req, res, next) => {
     try {
-        const products = await productService.getAll();
+        const products = await productService.getMany();
         return res.status(200).send(products);
     } catch (err) {
         return next(err);
@@ -24,7 +24,7 @@ const getProducts = async (req, res, next) => {
 
 const getProduct = async (req, res, next) => {
     try {
-        const product = await productService.getOneById(req.params.productId);
+        const product = await productService.getOne(req.params.productId);
         return res.status(200).send(product);
     } catch (err) {
         return next(err);
@@ -33,7 +33,7 @@ const getProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        await productService.deleteOneById(req.params.productId);
+        await productService.deleteOne(req.params.productId);
         return res.status(200).send({ "message": "Product deleted successfully" });
     } catch (err) {
         return next(err);
@@ -42,8 +42,8 @@ const deleteProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
     try {
-        await productService.getOneById(req.params.productId);
-        const product = await productService.updateOneById(req.params.productId, req.body);
+        await productService.getOne(req.params.productId);
+        const product = await productService.updateOne(req.params.productId, req.body);
         return res.status(200).send(product);
     } catch (err) {
         return next(err);

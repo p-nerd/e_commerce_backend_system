@@ -28,7 +28,7 @@ class ProfileService {
             throw new InternalSeverError(err.message);
         }
     };
-    update = async (userId, payload) => {
+    updateByUserId = async (userId, payload) => {
         try {
             const updatedProfile = await ProfileDataModel.findOneAndUpdate({ user: userId }, payload, { new: true });
             return new ProfileResModel(updatedProfile);
