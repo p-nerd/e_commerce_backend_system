@@ -15,7 +15,7 @@ class RedisService {
     ttl = async function (key) {
         return await this.client.TTL(key);
     };
-    delete = async function (key) {
+    del = async function (key) {
         try {
             return await this.client.del(key);
         } catch (err) {

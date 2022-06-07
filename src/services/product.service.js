@@ -38,7 +38,9 @@ class ProductService {
     };
     updateOne = async (productId, payload) => {
         try {
-            return await ProductDataModel.findOneAndUpdate({ _id: productId }, payload, { new: true });
+            const product = await ProductDataModel.findOneAndUpdate(
+                { _id: productId }, payload, { new: true });
+            return new ProductResModel(product);
         } catch (err) {
             throw new InternalSeverError(err.message);
         }

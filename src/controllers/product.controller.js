@@ -9,6 +9,7 @@ const { cacheProduct } = require("../middlewares/cache.middleware");
 const createProduct = async (req, res, next) => {
     try {
         const product = await productService.saveOne(req.body);
+        await redisService.set(product.id, product)
         return res.status(201).send(product);
     } catch (err) {
         return next(err);
@@ -27,7 +28,7 @@ const getProducts = async (req, res, next) => {
 const getProduct = async (req, res, next) => {
     try {
         const product = await productService.getOne(req.params.productId);
-        await redisService.set(product._id, product)
+        await redisService.set(product.id, product)
         return res.status(200).send(product);
     } catch (err) {
         return next(err);
@@ -38,7 +39,7 @@ const deleteProduct = async (req, res, next) => {
     try {
         const productId = req.params.productId
         await productService.deleteOne(productId);
-        await redisService.delete(productId);
+        await redisService.del(productId);
         return res.status(200).send({ "message": "Product deleted successfully" });
     } catch (err) {
         return next(err);
@@ -47,8 +48,10 @@ const deleteProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
     try {
-        await productService.getOne(req.params.productId);
-        const product = await productService.updateOne(req.params.productId, req.body);
+        const productId = req.params.productId;
+        await productService.getOne(productId);
+        const product = await productService.updateOne(productId, req.body);
+        await redisService.set(product.id, product)
         return res.status(200).send(product);
     } catch (err) {
         return next(err);
