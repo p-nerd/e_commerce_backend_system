@@ -36,7 +36,9 @@ const getProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        await productService.deleteOne(req.params.productId);
+        const productId = req.params.productId
+        await productService.deleteOne(productId);
+        await redisService.delete(productId);
         return res.status(200).send({ "message": "Product deleted successfully" });
     } catch (err) {
         return next(err);
