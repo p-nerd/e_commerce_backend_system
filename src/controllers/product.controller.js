@@ -1,7 +1,7 @@
 const productRouter = require("express").Router();
 const productService = require("./../services/product.service");
 const { authenticate, manager } = require("../middlewares/authorization.middleware");
-const { ProductCreateSchema, ProductUpdateSchema } = require("../models/product.model");
+const { ProductCreateSchema, ProductUpdateSchema, ProductCreateManySchema } = require("../models/product.model");
 const { validate } = require("./../middlewares/validate.middleware");
 const redisService = require("../services/redis.service");
 const { cacheProduct } = require("../middlewares/cache.middleware");
@@ -16,9 +16,22 @@ const createProduct = async (req, res, next) => {
     }
 };
 
+const createProductMany = async (req, res, next) => {
+    try {
+        const products = await productService.saveMany(req.body);
+        return res.status(201).send(products);
+    } catch (err) {
+        return next(err);
+    }
+}
+
 const getProducts = async (req, res, next) => {
     try {
-        const products = await productService.getMany();
+        const products = await productService.getMany(
+            req.query.sortby,
+            req.query.order,
+            req.query.limit
+        );
         return res.status(200).send(products);
     } catch (err) {
         return next(err);
@@ -57,6 +70,10 @@ const updateProduct = async (req, res, next) => {
         return next(err);
     }
 };
+
+productRouter
+    .route("/many")
+    .post([validate(ProductCreateManySchema), authenticate, manager], createProductMany)
 
 productRouter
     .route("/")

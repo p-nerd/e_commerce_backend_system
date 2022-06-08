@@ -1,4 +1,4 @@
-const { REDIS_URI } = require("../utils/config.util");
+const { REDIS_URI, DEFAULT_REDIS_EXPIRE } = require("../utils/config.util");
 
 class RedisError extends Error {
     constructor(message) {
@@ -19,7 +19,7 @@ class RedisService {
             console.log(`Redis connected successfully with ${REDIS_URI}`)
         });
     };
-    set = async function (key, value, ex = 1800) {
+    set = async function (key, value, ex = DEFAULT_REDIS_EXPIRE) {
         try {
             return await this.client.SET(
                 key,

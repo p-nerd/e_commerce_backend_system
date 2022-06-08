@@ -1,4 +1,4 @@
-const { ProductDataModel, ProductResModel, ProductCreateSchema } = require("../models/product.model");
+const { ProductDataModel, ProductResModel } = require("../models/product.model");
 const { InternalSeverError, NotFoundError } = require("../utils/errors.util");
 
 class ProductService {
@@ -11,9 +11,24 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
-    getMany = async () => {
+    saveMany = async (payloads) => {
         try {
-            const products = await ProductDataModel.find();
+            const products = payloads.map(async (payload) => {
+                const product = await this.saveOne(payload);
+                return product;
+            });
+            return await Promise.all(products);
+        } catch (err) {
+            throw new InternalSeverError(err.message);
+        }
+    };
+    getMany = async (sortby = "_id", order = "asc", limit = 5) => {
+        try {
+            order = order === "asc" ? 1 : -1;
+            const products = await ProductDataModel
+                .find()
+                .sort({ [sortby]: order })
+                .limit(limit);
             return products.map((product) => new ProductResModel(product));
         } catch (err) {
             throw new InternalSeverError(err.message);
@@ -48,9 +63,17 @@ class ProductService {
     getPrice = async (productId) => {
         try {
             const product = await this.getOne(productId);
+            if (!product) throw new NotFoundError("product not found by the id");
             return product.price;
         } catch (err) {
             if (err.status && err.status === 404) throw err;
+            throw new InternalSeverError(err.message);
+        }
+    }
+    getTotal = async () => {
+        try {
+            return await ProductDataModel.find().count();
+        } catch (err) {
             throw new InternalSeverError(err.message);
         }
     }
