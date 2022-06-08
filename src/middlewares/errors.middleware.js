@@ -1,11 +1,9 @@
-const { NotFoundError } = require("../utils/errors.util");
-
 const unknownRoute = (req, res) => {
-    return res.status(404).send(new NotFoundError("Resource not found"));
+    return res.redirect("/api/v1/docs");
 };
 
 const errorHandler = (err, req, res, next) => {
-    res.status(err.status).send(err);
+    return res.status(err.status).send(err);
 }
 
 module.exports = {
