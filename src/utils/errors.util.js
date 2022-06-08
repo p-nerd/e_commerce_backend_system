@@ -63,14 +63,6 @@ class ForbiddenError extends GeneralError {
     }
 }
 
-class RedisError extends GeneralError {
-    constructor(message) {
-        super(message);
-        this.name = "Redis Error";
-        this.stack = 500
-    }
-}
-
 module.exports = {
     GeneralError,
     NotFoundError,
@@ -80,5 +72,4 @@ module.exports = {
     UnauthorizedError,
     ForbiddenError,
     BadRequestError,
-    RedisError
 }

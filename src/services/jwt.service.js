@@ -1,10 +1,10 @@
 const jsonwebtoken = require("jsonwebtoken");
-const { JWT_EXPIRES_IN, JWT_SECRET_KEY } = require("./../utils/config.util");
+const { JWT_EXPIRES_IN_MINUTE, JWT_SECRET_KEY } = require("./../utils/config.util");
 
 class JwtService {
     getToken = (payload) => new Promise((resolve, reject) => {
         jsonwebtoken.sign(payload, JWT_SECRET_KEY,
-            { expiresIn: JWT_EXPIRES_IN },
+            { expiresIn: JWT_EXPIRES_IN_MINUTE },
             (err, token) => {
                 if (err) reject(err);
                 else resolve(token);
