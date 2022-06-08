@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
-const { unknownRoute, errorHandler } = require("./middlewares/errors.middleware");
 const router = require("./routes");
 const app = express();
+const { unknownRoute, errorHandler } = require("./middlewares/errors.middleware");
 
 app.use(express.json());
 app.use(morgan("dev"));

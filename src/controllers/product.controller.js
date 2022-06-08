@@ -78,7 +78,7 @@ productRouter
 productRouter
     .route("/")
     .post([validate(ProductCreateSchema), authenticate, manager], createProduct)
-    .get(authenticate, getProducts);
+    .get([authenticate], getProducts);
 
 productRouter
     .route("/:productId")

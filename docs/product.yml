@@ -1,0 +1,11 @@
+paths:
+  /api/v1/products/:            
+    get:              
+      tags:           
+        - Products        
+      summary: Get all products
+      produces:
+      - application/json
+      responses:   
+        200:
+          description: An object with products details
