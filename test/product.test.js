@@ -8,7 +8,7 @@ describe("Get products route:", () => {
         expect(response.status).toBe(401);
         expect(response.body.name).toMatch(/Unauthorized Error/);
     })
-})
+});
 
 afterAll(async () => {
     await mongoose.disconnect();
