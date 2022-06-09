@@ -1,9 +1,7 @@
 const app = require("./app");
-const { APP_PORT, MONGODB_URI } = require("./utils/config.util");
-const { connectToMongo } = require("./utils/mongo.util");
+const { APP_PORT } = require("./utils/config.util");
 
 app.listen(APP_PORT, async () => {
-    console.info(`Application listening on port: ${APP_PORT}`);
+    console.info(`App listening on port: ${APP_PORT}`);
     await connectToMongo();
-    console.info(`Connected to MongoDB successful with ${MONGODB_URI}`);
 });
