@@ -10,7 +10,7 @@ const swaggerSpecification = swaggerJsDoc({
             description: "A e-commerce backend system with node",
         }
     },
-    apis: ['./docs/**/*.yml'],
+    apis: ['./doc/**/*.yml'],
 });
 
 const swagger = [swaggerUI.serve, swaggerUI.setup(swaggerSpecification)];
