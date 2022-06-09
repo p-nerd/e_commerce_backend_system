@@ -14,6 +14,8 @@ const REDIS_URI = process.env.REDIS_URI
     || "redis://127.0.0.1:6379";
 const DEFAULT_REDIS_EXPIRE = parseInt(process.env.DEFAULT_REDIS_EXPIRE)
     || 1800
+const NODE_ENV = process.env.NODE_ENV
+    || "production"
 
 module.exports = {
     APP_PORT,
@@ -22,5 +24,6 @@ module.exports = {
     JWT_EXPIRES_IN_MINUTE,
     JWT_SECRET_KEY,
     REDIS_URI,
-    DEFAULT_REDIS_EXPIRE
+    DEFAULT_REDIS_EXPIRE,
+    NODE_ENV
 }
