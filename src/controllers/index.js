@@ -6,6 +6,7 @@ const profileRouter = require("./profile.controller");
 const userRouter = require("./user.controller");
 const swagger = require("../utils/swagger.util");
 const { unknownRoute, errorHandler } = require("../middlewares/errors.middleware");
+const { errorLogger } = require("../middlewares/logging.middleware");
 
 module.exports = app => {
     const base = "/api/v1";
@@ -17,6 +18,7 @@ module.exports = app => {
     app.use(base + "/cartitems", cartitemRouter)
     app.use(base + "/docs", swagger)
 
+    app.use(errorLogger());
     app.use(errorHandler);
     app.use(unknownRoute);
 };

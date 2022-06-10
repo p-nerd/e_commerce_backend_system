@@ -4,6 +4,8 @@ const { roles } = require("../utils/enums.util");
 
 const authenticate = async (req, res, next) => {
     try {
+        if (!req.headers.authorization)
+            throw new UnauthorizedError("token not found");
         const token = req.headers.authorization?.split(" ")[1].trim();
         const decodedPayload = await authService.compareToken(token);
         req.user = await authService.getOneEmail(decodedPayload.email);
