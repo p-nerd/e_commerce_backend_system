@@ -7,6 +7,8 @@ const userRouter = require("./user.controller");
 const swagger = require("../utils/swagger.util");
 const { unknownRoute, errorHandler } = require("../middlewares/errors.middleware");
 const { errorLogger } = require("../middlewares/logging.middleware");
+const { NODE_ENV } = require("../utils/config.util");
+const { envs } = require("../utils/enums.util");
 
 module.exports = app => {
     const base = "/api/v1";
@@ -18,7 +20,9 @@ module.exports = app => {
     app.use(base + "/cartitems", cartitemRouter)
     app.use(base + "/docs", swagger)
 
-    app.use(errorLogger());
+    if (NODE_ENV !== envs.testing) {
+        app.use(errorLogger());
+    }
     app.use(errorHandler);
     app.use(unknownRoute);
 };

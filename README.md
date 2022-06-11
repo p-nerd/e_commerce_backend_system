@@ -32,5 +32,26 @@ $ yarn install
 step #4: now you can run the server in development mode
 
 ```sh
-$ yarn start:dev
+$ yarn start:watch
+```
+
+# To testing the application
+
+step #2: Install dependencies
+
+```sh
+$ npm install -g yarn
+$ yarn install
+```
+
+step #2: run the test
+
+```sh
+$ yarn test
+```
+
+or run the test in watch mode
+
+```sh
+$ yarn test:watch
 ```

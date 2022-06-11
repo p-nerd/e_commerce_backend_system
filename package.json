@@ -8,8 +8,8 @@
   "scripts": {
     "start": "node ./src/index.js",
     "start:watch": "nodemon --ext .yml,.yaml,.js,.env ./src/index.js",
-    "test": "jest --detectOpenHandles",
-    "test:watch": "jest --watchAll --detectOpenHandles"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

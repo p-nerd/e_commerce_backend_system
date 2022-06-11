@@ -1,6 +1,6 @@
-const request = require("supertest")(require("./../src/app"));
+const request = require("supertest")(require("../../src/app"));
 const mongoose = require("mongoose");
-const redisService = require("./../src/services/redis.service");
+const redisService = require("../../src/services/redis.service");
 
 describe("Get products route:", () => {
     it("401 Unauthorized Error", async () => {

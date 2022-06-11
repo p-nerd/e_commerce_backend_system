@@ -7,8 +7,8 @@ const { setCorrelationId, requestLogger } = require("./logging.middleware");
 module.exports = app => {
     app.use(express.json());
     app.use(setCorrelationId);
-    app.use(requestLogger())
     if (NODE_ENV !== envs.testing) {
+        app.use(requestLogger())
         app.use(morgan("dev"));
     }
 }

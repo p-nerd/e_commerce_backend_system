@@ -16,6 +16,8 @@ const DEFAULT_REDIS_EXPIRE = parseInt(process.env.DEFAULT_REDIS_EXPIRE)
     || 1800
 const NODE_ENV = process.env.NODE_ENV
     || "production"
+const BASE_URL = process.env.BASE_API_PATH
+    || "/api/v1";
 
 module.exports = {
     APP_PORT,
@@ -25,5 +27,6 @@ module.exports = {
     JWT_SECRET_KEY,
     REDIS_URI,
     DEFAULT_REDIS_EXPIRE,
-    NODE_ENV
+    NODE_ENV,
+    BASE_URL
 }
