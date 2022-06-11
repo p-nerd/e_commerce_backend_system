@@ -31,7 +31,7 @@ class AuthService {
                 email: user.email,
                 role: user.role
             };
-            return await jwtService.getToken(jwtPayload);
+            return await jwtService.token(jwtPayload);
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
@@ -39,7 +39,7 @@ class AuthService {
     compareToken = async (token) => {
         try {
             if (!token) throw new Error("Token not found");
-            return await jwtService.tokenCompare(token);
+            return await jwtService.compare(token);
         } catch (err) {
             throw new UnauthorizedError(err.message);
         }
