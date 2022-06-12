@@ -37,12 +37,17 @@ const manager = async (req, res, next) => {
 
 const rolePermission = (req, res, next) => {
     if (!req.body.role) return next();
-    if (req.body.role === "user" && req.user.role === "user")
-        return next();
+    if (req.body.role === "user" && req.user.role === "user") return next();
     if (req.body.role === "admin")
         return next(new UnauthorizedError("You can't make any one admin"));
     if (req.user.role === "admin") return next();
     return next(new UnauthorizedError("you have to be admin"));
 };
 
-module.exports = { authenticate, loggedUserOrAdmin, admin, rolePermission, manager };
+module.exports = {
+    authenticate,
+    loggedUserOrAdmin,
+    admin,
+    rolePermission,
+    manager
+};
