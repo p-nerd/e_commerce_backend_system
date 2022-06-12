@@ -1,5 +1,6 @@
 const unknownRoute = (req, res) => {
-    return res.redirect("/api/v1/docs");
+    // return res.redirect("/api/v1/docs");
+    return res.status(404).send("Route not found");
 };
 
 const errorHandler = (err, req, res, next) => {

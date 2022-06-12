@@ -1,0 +1,11 @@
+{
+    "definition": {
+        "openapi": "3.0.3",
+        "info": {
+            "title": "E-commerce Backend System",
+            "version": "1.0.0",
+            "description": "A e-commerce backend system with node"
+        }
+    },
+    "apis": ["./doc/**/*.yml"]
+}

@@ -1,7 +1,7 @@
 const app = require("./app");
 const { APP_PORT } = require("./utils/config.util");
-const logger = require("./utils/logger.util");
+const logService = require("./services/log.service");
 
 app.listen(APP_PORT, async () => {
-    logger.info(`App listening on port: ${APP_PORT}`);
+    logService.info(`App listening on port: ${APP_PORT}`);
 });
