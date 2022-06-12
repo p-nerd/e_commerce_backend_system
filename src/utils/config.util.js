@@ -13,11 +13,13 @@ const JWT_EXPIRES_IN_MINUTE = 60 * (parseInt(process.env.JWT_EXPIRES_IN_MINUTE)
 const REDIS_URI = process.env.REDIS_URI
     || "redis://127.0.0.1:6379";
 const DEFAULT_REDIS_EXPIRE = parseInt(process.env.DEFAULT_REDIS_EXPIRE)
-    || 1800
+    || 1800;
 const NODE_ENV = process.env.NODE_ENV
-    || "production"
+    || "production";
 const BASE_URL = process.env.BASE_API_PATH
     || "/api/v1";
+const MONGODB_TRANSPORT = process.env.MONGODB_TRANSPORT === "true"
+    || false;
 
 module.exports = {
     APP_PORT,
@@ -28,5 +30,6 @@ module.exports = {
     REDIS_URI,
     DEFAULT_REDIS_EXPIRE,
     NODE_ENV,
-    BASE_URL
+    BASE_URL,
+    MONGODB_TRANSPORT,
 }
