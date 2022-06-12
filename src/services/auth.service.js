@@ -1,5 +1,10 @@
 const { UserDataModel } = require("./../models/user.model");
-const { BadRequestError, NotFoundError, UnauthorizedError, InternalSeverError } = require("./../utils/errors.util");
+const {
+    BadRequestError,
+    NotFoundError,
+    UnauthorizedError,
+    InternalSeverError
+} = require("./../utils/errors.util");
 const cryptoService = require("./crypto.service");
 const jwtService = require("./jwt.service");
 
@@ -43,7 +48,7 @@ class AuthService {
         } catch (err) {
             throw new UnauthorizedError(err.message);
         }
-    }
+    };
 }
 
 const authService = new AuthService();

@@ -10,8 +10,8 @@ const cacheProduct = async (req, res, next) => {
     } catch (err) {
         return next();
     }
-}
+};
 
 module.exports = {
-    cacheProduct,
-}
+    cacheProduct
+};

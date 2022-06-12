@@ -71,5 +71,5 @@ module.exports = {
     InternalSeverError,
     UnauthorizedError,
     ForbiddenError,
-    BadRequestError,
-}
+    BadRequestError
+};

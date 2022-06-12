@@ -1,10 +1,13 @@
-const { CartitemDataModel, CartitemResModel } = require("../models/cartitem.model");
+const {
+    CartitemDataModel,
+    CartitemResModel
+} = require("../models/cartitem.model");
 const { InternalSeverError } = require("../utils/errors.util");
 
 class CartitemService {
     saveOne = async (payload) => {
         try {
-            const cartitem = new CartitemDataModel(payload)
+            const cartitem = new CartitemDataModel(payload);
             const cartItemSaved = await cartitem.save();
             return new CartitemResModel(cartItemSaved);
         } catch (err) {
@@ -14,7 +17,7 @@ class CartitemService {
     getManyByUserId = async (userId) => {
         try {
             const cartitems = await CartitemDataModel.find({ user: userId });
-            return cartitems.map(cartitem => new CartitemResModel(cartitem));
+            return cartitems.map((cartitem) => new CartitemResModel(cartitem));
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
@@ -25,7 +28,7 @@ class CartitemService {
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
-    }
+    };
 }
 
 const cartitemService = new CartitemService();

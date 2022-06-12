@@ -38,5 +38,5 @@ describe("Create user route:", () => {
 
 afterAll(async () => {
     await mongoose.disconnect();
-    await redisService.client.quit()
+    await redisService.client.quit();
 });

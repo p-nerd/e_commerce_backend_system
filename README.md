@@ -1,11 +1,16 @@
 # e-commerce-backend-system
 
+## Links
+
+-   https://github.com/psimanta/e-commerce-node
+-   https://github.com/psimanta/e-commerce-react
+
 ## To run the application (for developers)
 
 You have to need two software:
 
-- node.js
-- MongoDB
+-   node.js
+-   MongoDB
 
 if you had not installed it. please install it first
 

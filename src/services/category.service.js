@@ -1,4 +1,7 @@
-const { CategoryDataModel, CategoryResModel } = require("./../models/category.model");
+const {
+    CategoryDataModel,
+    CategoryResModel
+} = require("./../models/category.model");
 const { InternalSeverError, NotFoundError } = require("./../utils/errors.util");
 
 class CategoryService {
@@ -21,8 +24,11 @@ class CategoryService {
     };
     getOneByName = async (categoryName) => {
         try {
-            const category = await CategoryDataModel.findOne({ name: categoryName });
-            if (!category) throw new NotFoundError("category not found by the name");
+            const category = await CategoryDataModel.findOne({
+                name: categoryName
+            });
+            if (!category)
+                throw new NotFoundError("category not found by the name");
             return new CategoryResModel(category);
         } catch (err) {
             throw new InternalSeverError(err.message);
@@ -37,7 +43,11 @@ class CategoryService {
     };
     update = async (categoryName, payload) => {
         try {
-            const updatedCategory = await CategoryDataModel.findOneAndUpdate({ name: categoryName }, payload, { new: true });
+            const updatedCategory = await CategoryDataModel.findOneAndUpdate(
+                { name: categoryName },
+                payload,
+                { new: true }
+            );
             return new CategoryResModel(updatedCategory);
         } catch (err) {
             throw new InternalSeverError(err.message);
@@ -45,5 +55,5 @@ class CategoryService {
     };
 }
 
-const categoryService = new CategoryService;
+const categoryService = new CategoryService();
 module.exports = categoryService;

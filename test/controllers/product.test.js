@@ -7,10 +7,10 @@ describe("Get products route:", () => {
         const response = await request.get("/api/v1/products/");
         expect(response.status).toBe(401);
         expect(response.body.name).toMatch(/Unauthorized Error/);
-    })
+    });
 });
 
 afterAll(async () => {
     await mongoose.disconnect();
-    await redisService.client.quit()
+    await redisService.client.quit();
 });

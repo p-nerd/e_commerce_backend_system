@@ -1,4 +1,7 @@
-const { ProfileDataModel, ProfileResModel } = require("./../models/profile.model");
+const {
+    ProfileDataModel,
+    ProfileResModel
+} = require("./../models/profile.model");
 const { InternalSeverError, NotFoundError } = require("./../utils/errors.util");
 
 class ProfileService {
@@ -14,7 +17,8 @@ class ProfileService {
     getOneByUserId = async (userId) => {
         try {
             const profile = await ProfileDataModel.findOne({ user: userId });
-            if (!profile) throw new NotFoundError("profile not found by the user id");
+            if (!profile)
+                throw new NotFoundError("profile not found by the user id");
             return new ProfileResModel(profile);
         } catch (err) {
             if (err.status && err.status === 404) throw err;
@@ -30,13 +34,17 @@ class ProfileService {
     };
     updateByUserId = async (userId, payload) => {
         try {
-            const updatedProfile = await ProfileDataModel.findOneAndUpdate({ user: userId }, payload, { new: true });
+            const updatedProfile = await ProfileDataModel.findOneAndUpdate(
+                { user: userId },
+                payload,
+                { new: true }
+            );
             return new ProfileResModel(updatedProfile);
         } catch (err) {
             throw new InternalSeverError(err.message);
         }
-    }
+    };
 }
 
-const profileService = new ProfileService;
+const profileService = new ProfileService();
 module.exports = profileService;

@@ -16,8 +16,8 @@ describe("cryptoService.hash():", () => {
         } catch (err) {
             expect(err.message).toBe("data and salt arguments required");
         }
-    })
-})
+    });
+});
 
 describe("cryptoService.compare():", () => {
     const password = "hello1234";
@@ -30,5 +30,5 @@ describe("cryptoService.compare():", () => {
         const hash = await cryptoService.hash(password);
         const res = await cryptoService.compare("hello", hash);
         expect(res).toBe(false);
-    })
-})
+    });
+});

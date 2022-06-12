@@ -6,7 +6,7 @@ const logger = {
         if (NODE_ENV !== envs.testing) {
             console.log(message);
         }
-    },
+    }
 };
 
 module.exports = logger;

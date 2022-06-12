@@ -40,7 +40,9 @@ const ProductUpdateSchema = Joi.object({
     image: Joi.string().optional(),
     quantity: Joi.number().optional(),
     rating: Joi.object({ rate: Joi.number(), count: Joi.number() }).optional()
-}).or("name", "description", "price", "category", "quantity").required();
+})
+    .or("name", "description", "price", "category", "quantity")
+    .required();
 
 const productMongooseSchema = new Schema({
     title: { type: String, required: true },
@@ -53,13 +55,13 @@ const productMongooseSchema = new Schema({
         rete: { type: Number, default: 0 },
         count: { type: Number, default: 0 }
     }
-})
+});
 
 productMongooseSchema.index({
-    "title": "text",
-    "price": "text",
-    "description": "text",
-    "category": "text",
+    title: "text",
+    price: "text",
+    description: "text",
+    category: "text",
     "rating.rete": "text"
 });
 
@@ -83,5 +85,5 @@ module.exports = {
     ProductCreateManySchema,
     ProductUpdateSchema,
     ProductDataModel,
-    ProductResModel,
-}
+    ProductResModel
+};

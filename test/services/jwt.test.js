@@ -6,7 +6,7 @@ describe("jwtService.token():", () => {
             id: "234",
             email: "shihab4t@gmail.com",
             role: "admin"
-        }
+        };
         const token = await jwtService.token(payload);
         expect(token).not.toBeFalsy();
     });
@@ -23,4 +23,4 @@ describe("jwtService.compare():", () => {
         const decoded = await jwtService.compare(token);
         console.log(decoded);
     });
-})
+});
