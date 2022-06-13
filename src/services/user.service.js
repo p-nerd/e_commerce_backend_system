@@ -3,7 +3,7 @@ const {
     InternalSeverError,
     NotFoundError,
     BadRequestError
-} = require("../utils/errors.util");
+} = require("../utils/response.util");
 
 class UserService {
     saveOne = async (payload) => {

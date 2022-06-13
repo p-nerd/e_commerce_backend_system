@@ -1,10 +1,13 @@
+const { response, NotFoundError } = require("../utils/response.util");
+
 const unknownRoute = (req, res) => {
     // return res.redirect("/api/v1/docs");
-    return res.status(404).send("Route not found");
+    const err = new NotFoundError("Route not found");
+    return response(res, err.message, err.data, err.status, false, true);
 };
 
 const errorHandler = (err, req, res, next) => {
-    return res.status(err.status).send(err);
+    return response(res, err.message, err.data, err.status, false, true);
 };
 
 module.exports = {

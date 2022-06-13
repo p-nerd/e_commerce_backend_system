@@ -1,10 +1,12 @@
+const { response } = require("../utils/response.util");
 const productService = require("./../services/product.service");
+const redisService = require("./../services/redis.service");
 
 const createProduct = async (req, res, next) => {
     try {
         const product = await productService.saveOne(req.body);
-        await redisService.set(product.id, product);
-        return res.status(201).send(product);
+        await redisService.set(product._id, product);
+        return response(res, "Created product successfully", product, 201);
     } catch (err) {
         return next(err);
     }
@@ -13,7 +15,12 @@ const createProduct = async (req, res, next) => {
 const createProductMany = async (req, res, next) => {
     try {
         const products = await productService.saveMany(req.body);
-        return res.status(201).send(products);
+        return response(
+            res,
+            `${products.length} products created`,
+            products,
+            201
+        );
     } catch (err) {
         return next(err);
     }
@@ -26,7 +33,7 @@ const getProducts = async (req, res, next) => {
             req.query.order,
             req.query.limit
         );
-        return res.status(200).send(products);
+        return response(res, "Get all products by the query", products);
     } catch (err) {
         return next(err);
     }
@@ -35,8 +42,9 @@ const getProducts = async (req, res, next) => {
 const getProduct = async (req, res, next) => {
     try {
         const product = await productService.getOne(req.params.productId);
-        await redisService.set(product.id, product);
-        return res.status(200).send(product);
+        console.log(product);
+        await redisService.set(product._id, product);
+        return response(res, "Get One product", product);
     } catch (err) {
         return next(err);
     }
@@ -45,11 +53,10 @@ const getProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
     try {
         const productId = req.params.productId;
+        await productService.getOne(productId);
         await productService.deleteOne(productId);
         await redisService.del(productId);
-        return res
-            .status(200)
-            .send({ message: "Product deleted successfully" });
+        return response(res, "Product deleted successfully");
     } catch (err) {
         return next(err);
     }
@@ -59,9 +66,12 @@ const updateProduct = async (req, res, next) => {
     try {
         const productId = req.params.productId;
         await productService.getOne(productId);
-        const product = await productService.updateOne(productId, req.body);
-        await redisService.set(product.id, product);
-        return res.status(200).send(product);
+        const updatedProduct = await productService.updateOne(
+            productId,
+            req.body
+        );
+        await redisService.set(updatedProduct._id, updatedProduct);
+        return response(res, "Product updated", updatedProduct);
     } catch (err) {
         return next(err);
     }

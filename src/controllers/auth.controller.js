@@ -1,11 +1,12 @@
+const { response } = require("../utils/response.util");
 const authService = require("./../services/auth.service");
 
 const loginUser = async (req, res, next) => {
     try {
         const user = await authService.getOneEmail(req.body.email);
         await authService.comparePassword(req.body.password, user.password);
-        const token = await authService.generateToken(user);
-        res.status(200).send({ token });
+        const access_token = await authService.generateToken(user);
+        return response(res, "Jwt access token", { access_token });
     } catch (err) {
         return next(err);
     }
@@ -13,8 +14,8 @@ const loginUser = async (req, res, next) => {
 
 const updateToken = async (req, res, next) => {
     try {
-        const token = await authService.generateToken(req.user);
-        res.status(200).send({ token });
+        const access_token = await authService.generateToken(req.user);
+        return response(res, "Updated Jwt access token", { access_token });
     } catch (err) {
         return next(err);
     }

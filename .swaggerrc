@@ -7,5 +7,7 @@
             "description": "A e-commerce backend system with node"
         }
     },
-    "apis": ["./doc/**/*.yml"]
+    "apis": [
+        "./doc/**/*.yml"
+    ]
 }

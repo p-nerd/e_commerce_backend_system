@@ -2,7 +2,7 @@ const {
     ProfileDataModel,
     ProfileResModel
 } = require("./../models/profile.model");
-const { InternalSeverError, NotFoundError } = require("./../utils/errors.util");
+const { InternalSeverError, NotFoundError } = require("../utils/response.util");
 
 class ProfileService {
     saveOne = async (payload) => {

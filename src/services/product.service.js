@@ -2,7 +2,7 @@ const {
     ProductDataModel,
     ProductResModel
 } = require("../models/product.model");
-const { InternalSeverError, NotFoundError } = require("../utils/errors.util");
+const { InternalSeverError, NotFoundError } = require("../utils/response.util");
 
 class ProductService {
     saveOne = async (payload) => {

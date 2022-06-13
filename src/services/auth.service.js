@@ -4,7 +4,7 @@ const {
     NotFoundError,
     UnauthorizedError,
     InternalSeverError
-} = require("./../utils/errors.util");
+} = require("../utils/response.util");
 const cryptoService = require("./crypto.service");
 const jwtService = require("./jwt.service");
 

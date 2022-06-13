@@ -1,0 +1,85 @@
+paths:
+    /api/v1/users/:
+        post:
+            tags:
+                - Users
+            summary: Create new User
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UserCreate"
+            responses:
+                "201":
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+                "422":
+                    description: "Request Validation Error"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        get:
+            tags:
+                - Users
+            summary: Get all users
+            description: User have be authenticated and admin
+            security:
+                - bearerAuth: []
+            parameters:
+                - in: header
+                  name: "security"
+                  schema:
+                      type: string
+                  required: true
+                  description: Jwt access token
+            responses:
+                "200":
+                    description: A list of users.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/User"
+                "401":
+                    description: If user unauthenticated or user not admin
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+        UserCreate:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+        Error:
+            type: object
+            properties:
+                message:
+                    type: string
+                name:
+                    type: string
+                status:
+                    type: integer
+        securitySchemes:
+            bearerAuth:
+                type: http
+                scheme: bearer
+                bearerFormat: JWT

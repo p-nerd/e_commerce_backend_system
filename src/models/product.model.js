@@ -8,7 +8,7 @@ const ProductCreateSchema = Joi.object({
     price: Joi.number(),
     description: Joi.string(),
     // category: Joi.array().items(Joi.string()).min(1).required(),
-    category: Joi.string(),
+    category: Joi.string().required(),
     // image: Joi.array().items(Joi.string()),
     image: Joi.string(),
     quantity: Joi.number(),
@@ -69,7 +69,7 @@ const ProductDataModel = model("Product", productMongooseSchema);
 
 class ProductResModel {
     constructor(product) {
-        this.id = product.id;
+        this._id = product.id;
         this.title = product.title;
         this.price = product.price;
         if (product.description) this.description = product.description;

@@ -1,4 +1,4 @@
-const { BadRequestError } = require("../utils/errors.util");
+const { BadRequestError, response } = require("../utils/response.util");
 const profileService = require("./../services/profile.service");
 
 const createProfile = async (req, res, next) => {
@@ -13,7 +13,7 @@ const createProfile = async (req, res, next) => {
     try {
         req.body.user = req.user._id;
         const profile = await profileService.saveOne(req.body);
-        return res.status(201).send(profile);
+        return response(res, "Profile created for the user", profile, 201);
     } catch (err2) {
         return next(err2);
     }
@@ -26,7 +26,7 @@ const getProfile = async (req, res, next) => {
                 ? req.query.user
                 : req.user._id;
         const profile = await profileService.getOneByUserId(userId);
-        return res.status(200).send(profile);
+        return response(res, "Get logged in user profile", profile);
     } catch (err) {
         return next(err);
     }
@@ -36,7 +36,7 @@ const deleteProfile = async (req, res, next) => {
     try {
         await profileService.getOneByUserId(req.user._id);
         await profileService.deleteOneByUserId(req.user._id);
-        return res.status(200).send("Delete your profile successfully");
+        return response(res, "Delete logged in user profile successfully");
     } catch (err) {
         return next(err);
     }
@@ -49,7 +49,7 @@ const updateProfile = async (req, res, next) => {
             req.user._id,
             req.body
         );
-        return res.status(200).send(updatedProfile);
+        return response(res, "Update logged in user profile", updatedProfile);
     } catch (err) {
         return next(err);
     }

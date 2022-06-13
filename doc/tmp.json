@@ -1,0 +1,545 @@
+{
+    "openapi": "3.0.2",
+    "info": { "title": "FastAPI", "version": "0.1.0" },
+    "paths": {
+        "/posts/": {
+            "get": {
+                "tags": ["Posts"],
+                "summary": "Get Posts",
+                "operationId": "get_posts_posts__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 10
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Search",
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Posts Posts  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PostOut"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            },
+            "post": {
+                "tags": ["Posts"],
+                "summary": "Create Post",
+                "operationId": "create_post_posts__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/posts/{given_id}": {
+            "get": {
+                "tags": ["Posts"],
+                "summary": "Get One Post",
+                "operationId": "get_one_post_posts__given_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": { "title": "Given Id", "type": "integer" },
+                        "name": "given_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostOut"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            },
+            "put": {
+                "tags": ["Posts"],
+                "summary": "Update Post",
+                "operationId": "update_post_posts__given_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": { "title": "Given Id", "type": "integer" },
+                        "name": "given_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            },
+            "delete": {
+                "tags": ["Posts"],
+                "summary": "Delete Post",
+                "operationId": "delete_post_posts__given_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": { "title": "Given Id", "type": "integer" },
+                        "name": "given_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": { "description": "Successful Response" },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/users/": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create User",
+                "operationId": "create_user_users__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserOut"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get User",
+                "operationId": "get_user_users__id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": { "title": "Id", "type": "integer" },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserOut"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login/": {
+            "post": {
+                "tags": ["Authentication"],
+                "summary": "Login",
+                "operationId": "login_login__post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_login__post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vote/": {
+            "post": {
+                "tags": ["Vote"],
+                "summary": "Vote",
+                "operationId": "vote_vote__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": { "$ref": "#/components/schemas/Vote" }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "Root",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_login_login__post": {
+                "title": "Body_login_login__post",
+                "required": ["username", "password"],
+                "type": "object",
+                "properties": {
+                    "grant_type": {
+                        "title": "Grant Type",
+                        "pattern": "password",
+                        "type": "string"
+                    },
+                    "username": { "title": "Username", "type": "string" },
+                    "password": { "title": "Password", "type": "string" },
+                    "scope": {
+                        "title": "Scope",
+                        "type": "string",
+                        "default": ""
+                    },
+                    "client_id": { "title": "Client Id", "type": "string" },
+                    "client_secret": {
+                        "title": "Client Secret",
+                        "type": "string"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Post": {
+                "title": "Post",
+                "required": [
+                    "title",
+                    "content",
+                    "id",
+                    "create_at",
+                    "owner_id",
+                    "owner"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": { "title": "Title", "type": "string" },
+                    "content": { "title": "Content", "type": "string" },
+                    "published": {
+                        "title": "Published",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "id": { "title": "Id", "type": "integer" },
+                    "create_at": {
+                        "title": "Create At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "owner_id": { "title": "Owner Id", "type": "integer" },
+                    "owner": { "$ref": "#/components/schemas/UserOut" }
+                }
+            },
+            "PostCreate": {
+                "title": "PostCreate",
+                "required": ["title", "content"],
+                "type": "object",
+                "properties": {
+                    "title": { "title": "Title", "type": "string" },
+                    "content": { "title": "Content", "type": "string" },
+                    "published": {
+                        "title": "Published",
+                        "type": "boolean",
+                        "default": true
+                    }
+                }
+            },
+            "PostOut": {
+                "title": "PostOut",
+                "required": ["Post", "votes"],
+                "type": "object",
+                "properties": {
+                    "Post": { "$ref": "#/components/schemas/Post" },
+                    "votes": { "title": "Votes", "type": "integer" }
+                }
+            },
+            "Token": {
+                "title": "Token",
+                "required": ["access_token", "token_type"],
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "title": "Access Token",
+                        "type": "string"
+                    },
+                    "token_type": { "title": "Token Type", "type": "string" }
+                }
+            },
+            "UserCreate": {
+                "title": "UserCreate",
+                "required": ["email", "password"],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": { "title": "Password", "type": "string" }
+                }
+            },
+            "UserOut": {
+                "title": "UserOut",
+                "required": ["id", "email", "create_at"],
+                "type": "object",
+                "properties": {
+                    "id": { "title": "Id", "type": "integer" },
+                    "email": {
+                        "title": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "create_at": {
+                        "title": "Create At",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": ["loc", "msg", "type"],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "msg": { "title": "Message", "type": "string" },
+                    "type": { "title": "Error Type", "type": "string" }
+                }
+            },
+            "Vote": {
+                "title": "Vote",
+                "required": ["post_id", "dir"],
+                "type": "object",
+                "properties": {
+                    "post_id": { "title": "Post Id", "type": "integer" },
+                    "dir": { "title": "Dir", "type": "boolean" }
+                }
+            }
+        },
+        "securitySchemes": {
+            "OAuth2PasswordBearer": {
+                "type": "oauth2",
+                "flows": { "password": { "scopes": {}, "tokenUrl": "login" } }
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
-const { BadRequestError } = require("./../utils/errors.util");
+const { BadRequestError, response } = require("./../utils/response.util");
 const categoryService = require("./../services/category.service");
+const {} = require("express");
 
 const createCategory = async (req, res, next) => {
     try {
@@ -8,7 +9,7 @@ const createCategory = async (req, res, next) => {
     } catch (err) {}
     try {
         const category = await categoryService.saveOne(req.body);
-        return res.status(201).send(category);
+        return response(res, "New Category created", category, 201);
     } catch (err) {
         return next(err);
     }
@@ -17,7 +18,7 @@ const createCategory = async (req, res, next) => {
 const getCategories = async (req, res, next) => {
     try {
         const categories = await categoryService.getMany();
-        return res.status(200).send(categories);
+        return response(res, "Get all categories", categories);
     } catch (err) {
         return next(err);
     }
@@ -28,7 +29,7 @@ const getCategory = async (req, res, next) => {
         const category = await categoryService.getOneByName(
             req.params.categoryName
         );
-        return res.status(200).send(category);
+        return response(res, "Get one category", category);
     } catch (err) {
         return next(err);
     }
@@ -36,9 +37,10 @@ const getCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
     try {
-        await categoryService.getOneByName(req.params.categoryName);
-        await categoryService.deleteOneByName(req.params.categoryName);
-        return res.status(200).send("Delete your category successfully");
+        const categoryName = req.params.categoryName;
+        await categoryService.getOneByName(categoryName);
+        await categoryService.deleteOneByName(categoryName);
+        return response(res, "Delete your category successfully");
     } catch (err) {
         return next(err);
     }
@@ -51,7 +53,7 @@ const updateCategory = async (req, res, next) => {
             req.params.categoryName,
             req.body
         );
-        return res.status(200).send(updatedCategory);
+        return response(res, "Update the category", updatedCategory);
     } catch (err) {
         return next(err);
     }

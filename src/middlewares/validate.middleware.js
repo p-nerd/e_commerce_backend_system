@@ -1,7 +1,7 @@
 const {
     RequestValidationError,
     NotFoundError
-} = require("../utils/errors.util");
+} = require("../utils/response.util");
 
 const concatErrorsDetails = (details) =>
     details.reduce((total, current) => total + current.message, "");
