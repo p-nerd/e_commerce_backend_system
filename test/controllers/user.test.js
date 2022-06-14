@@ -22,7 +22,8 @@ describe("Create user route:", () => {
         delete payload.password;
         const response = await request.post(BASE_URL + "/users/").send(payload);
         expect(response.status).toBe(400);
-        expect(response.body.name).toBe("Request Validation Error");
+        expect(response.body.error).toBe(true);
+        expect(response.body.success).toBe(false);
     });
     it("return successful result", async () => {
         const payload = {
@@ -32,7 +33,8 @@ describe("Create user route:", () => {
         };
         const response = await request.post(BASE_URL + "/users/").send(payload);
         expect(response.status).toBe(201);
-        expect(response.body.name).toBe("Shihab Mahamud");
+        expect(response.body.error).toBe(false);
+        expect(response.body.success).toBe(true);
     });
 });
 

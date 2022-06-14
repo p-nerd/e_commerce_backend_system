@@ -5,9 +5,9 @@ const { envs } = require("../utils/enums.util");
 const { setCorrelationId, requestLogger } = require("./logging.middleware");
 const swaggerConfig = require("../middlewares/swagger.middleware");
 
-module.exports = async (app) => {
+module.exports = (app) => {
     app.use(express.json());
-    app.use(BASE_URL + "/docs", await swaggerConfig());
+    app.use(BASE_URL + "/docs", swaggerConfig());
 
     app.use(setCorrelationId);
     if (NODE_ENV !== envs.testing) {
