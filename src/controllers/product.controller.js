@@ -1,10 +1,7 @@
 const { response } = require("../utils/response");
 const productService = require("./../services/product.service");
 const redisService = require("./../services/redis.service");
-const {
-    authenticate,
-    manager
-} = require("../middlewares/authorization");
+const { authenticate, manager } = require("../middlewares/authorization");
 const {
     ProductCreateSchema,
     ProductUpdateSchema,
@@ -146,16 +143,16 @@ productRouter
 
 productRouter
     .route("/filter")
-    .post(validate(ProductFilterSchema), authenticate, filterProducts);
+    .post(validate(ProductFilterSchema), filterProducts);
 
 productRouter
     .route("/")
     .post(validate(ProductCreateSchema), authenticate, manager, createProduct)
-    .get(authenticate, getProducts);
+    .get(getProducts);
 
 productRouter
     .route("/:productId")
-    .get([authenticate, cacheProduct], getProduct)
+    .get(cacheProduct, getProduct)
     .delete([authenticate], deleteProduct)
     .patch(
         [validate(ProductUpdateSchema), authenticate, manager],
