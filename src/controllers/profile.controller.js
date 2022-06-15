@@ -1,5 +1,12 @@
 const { BadRequestError, response } = require("../utils/response.util");
 const profileService = require("./../services/profile.service");
+const { validate } = require("../middlewares/validate.middleware");
+const {
+    ProfileCreateSchema,
+    ProfileUpdateSchema
+} = require("../models/profile.model");
+const { authenticate } = require("./../middlewares/authorization.middleware");
+const profileRouter = require("express").Router();
 
 const createProfile = async (req, res, next) => {
     try {
@@ -55,9 +62,11 @@ const updateProfile = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    createProfile,
-    getProfile,
-    deleteProfile,
-    updateProfile
-};
+profileRouter
+    .route("/")
+    .post([validate(ProfileCreateSchema), authenticate], createProfile)
+    .get([authenticate], getProfile)
+    .delete([authenticate], deleteProfile)
+    .patch([validate(ProfileUpdateSchema), authenticate], updateProfile);
+
+module.exports = profileRouter;

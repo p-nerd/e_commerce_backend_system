@@ -3,6 +3,6 @@ const app = express();
 
 require("./middlewares")(app);
 require("./utils/mongo.util")();
-require("./routes")(app);
+require("./controllers")(app);
 
 module.exports = app;

@@ -1,6 +1,10 @@
 const cartitemService = require("../services/cartitem.service");
 const productService = require("../services/product.service");
 const { response } = require("../utils/response.util");
+const { authenticate } = require("../middlewares/authorization.middleware");
+const { validate } = require("../middlewares/validate.middleware");
+const { CartitemCreateSchema } = require("../models/cartitem.model");
+const cartitemRouter = require("express").Router();
 
 const createCartitem = async (req, res, next) => {
     try {
@@ -36,8 +40,11 @@ const deleteAllCartitemsForCurrentUser = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    createCartitem,
-    getAllCartitemsForCurrentUser,
-    deleteAllCartitemsForCurrentUser
-};
+
+cartitemRouter
+    .route("/")
+    .post([validate(CartitemCreateSchema), authenticate], createCartitem)
+    .get([authenticate], getAllCartitemsForCurrentUser)
+    .delete([authenticate], deleteAllCartitemsForCurrentUser);
+
+module.exports = cartitemRouter;

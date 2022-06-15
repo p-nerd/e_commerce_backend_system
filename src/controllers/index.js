@@ -1,9 +1,9 @@
-const userRouter = require("./user.routes");
-const authRouter = require("./auth.routes");
-const cartitemRouter = require("./cartitem.routes");
-const categoryRouter = require("./category.routes");
-const productRouter = require("./product.routes");
-const profileRouter = require("./profile.routes");
+const userRouter = require("./user.controller");
+const authRouter = require("./auth.controller");
+const cartitemRouter = require("./cartitem.controller");
+const categoryRouter = require("./category.controller");
+const productRouter = require("./product.controller");
+const profileRouter = require("./profile.controller");
 const {
     unknownRoute,
     errorHandler

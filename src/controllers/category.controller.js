@@ -1,6 +1,13 @@
 const { BadRequestError, response } = require("./../utils/response.util");
 const categoryService = require("./../services/category.service");
 const {} = require("express");
+const categoryRouter = require("express").Router();
+const { validate } = require("./../middlewares/validate.middleware");
+const {
+    CategoryCreateSchema,
+    CategoryUpdateSchema
+} = require("./../models/category.model");
+const { authenticate } = require("./../middlewares/authorization.middleware");
 
 const createCategory = async (req, res, next) => {
     try {
@@ -59,10 +66,15 @@ const updateCategory = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    createCategory,
-    getCategories,
-    getCategory,
-    deleteCategory,
-    updateCategory
-};
+categoryRouter
+    .route("/")
+    .post(validate(CategoryCreateSchema), authenticate, createCategory)
+    .get(authenticate, getCategories);
+
+categoryRouter
+    .route("/:categoryName")
+    .get(authenticate, getCategory)
+    .delete(authenticate, deleteCategory)
+    .patch(validate(CategoryUpdateSchema), authenticate, updateCategory);
+
+module.exports = categoryRouter;

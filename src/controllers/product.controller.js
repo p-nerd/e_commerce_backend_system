@@ -1,6 +1,18 @@
 const { response } = require("../utils/response.util");
 const productService = require("./../services/product.service");
 const redisService = require("./../services/redis.service");
+const {
+    authenticate,
+    manager
+} = require("../middlewares/authorization.middleware");
+const {
+    ProductCreateSchema,
+    ProductUpdateSchema,
+    ProductCreateManySchema
+} = require("../models/product.model");
+const { validate } = require("./../middlewares/validate.middleware");
+const { cacheProduct } = require("../middlewares/cache.middleware");
+const productRouter = require("express").Router();
 
 const createProduct = async (req, res, next) => {
     try {
@@ -77,11 +89,25 @@ const updateProduct = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    createProduct,
-    createProductMany,
-    getProducts,
-    getProduct,
-    deleteProduct,
-    updateProduct
-};
+productRouter
+    .route("/many")
+    .post(
+        [validate(ProductCreateManySchema), authenticate, manager],
+        createProductMany
+    );
+
+productRouter
+    .route("/")
+    .post([validate(ProductCreateSchema), authenticate, manager], createProduct)
+    .get([authenticate], getProducts);
+
+productRouter
+    .route("/:productId")
+    .get([authenticate, cacheProduct], getProduct)
+    .delete([authenticate], deleteProduct)
+    .patch(
+        [validate(ProductUpdateSchema), authenticate, manager],
+        updateProduct
+    );
+
+module.exports = productRouter;

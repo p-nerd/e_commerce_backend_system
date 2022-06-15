@@ -1,5 +1,10 @@
 const { response } = require("../utils/response.util");
 const authService = require("./../services/auth.service");
+const { authenticate } = require("../middlewares/authorization.middleware");
+const { validate } = require("../middlewares/validate.middleware");
+const { LoginSchema } = require("../models/auth.model");
+const authRouter = require("express").Router();
+
 
 const loginUser = async (req, res, next) => {
     try {
@@ -21,7 +26,9 @@ const updateToken = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    loginUser,
-    updateToken
-};
+authRouter
+    .route("/")
+    .post([validate(LoginSchema)], loginUser)
+    .patch([authenticate], updateToken);
+
+module.exports = authRouter;

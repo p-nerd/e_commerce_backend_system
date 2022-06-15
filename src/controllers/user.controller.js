@@ -2,6 +2,15 @@ const profileService = require("../services/profile.service");
 const userService = require("./../services/user.service");
 const cryptoService = require("../services/crypto.service");
 const { response } = require("../utils/response.util");
+const { validateId, validate } = require("../middlewares/validate.middleware");
+const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
+const {
+    authenticate,
+    loggedUserOrAdmin,
+    admin,
+    rolePermission
+} = require("../middlewares/authorization.middleware");
+const userRouter = require("express").Router();
 
 const createUser = async (req, res, next) => {
     try {
@@ -58,10 +67,24 @@ const deleteUser = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    createUser,
-    updateOneUser,
-    getAllUsers,
-    getOneUser,
-    deleteUser
-};
+userRouter
+    .route("/")
+    .post([validate(UserCreateSchema)], createUser)
+    .get([authenticate, admin], getAllUsers);
+
+userRouter
+    .route("/:id")
+    .all(validateId)
+    .patch(
+        [
+            validate(UserUpdateSchema),
+            authenticate,
+            loggedUserOrAdmin,
+            rolePermission
+        ],
+        updateOneUser
+    )
+    .get(getOneUser)
+    .delete([authenticate, loggedUserOrAdmin], deleteUser);
+
+module.exports = userRouter;
