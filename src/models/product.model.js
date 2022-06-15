@@ -1,89 +1,68 @@
 const Joi = require("joi");
 const { model, Schema } = require("mongoose");
-// const { ObjectId } = Schema.Types;
+const { ObjectId } = Schema.Types;
 
-const ProductCreateSchema = Joi.object({
-    id: Joi.number().optional(),
-    title: Joi.string().min(3).max(255).required(),
-    price: Joi.number(),
-    description: Joi.string(),
-    // category: Joi.array().items(Joi.string()).min(1).required(),
-    category: Joi.string().required(),
-    // image: Joi.array().items(Joi.string()),
-    image: Joi.string(),
-    quantity: Joi.number(),
-    rating: Joi.object({ rate: Joi.number(), count: Joi.number() })
-});
-
-const ProductCreateManySchema = Joi.array().items(
-    Joi.object({
-        id: Joi.number().optional(),
-        title: Joi.string().min(3).max(255).required(),
-        price: Joi.number(),
-        description: Joi.string(),
-        // category: Joi.array().items(Joi.string()).min(1).required(),
-        category: Joi.string(),
-        // image: Joi.array().items(Joi.string()),
-        image: Joi.string(),
-        quantity: Joi.number(),
-        rating: Joi.object({ rate: Joi.number(), count: Joi.number() })
+const ProductDataModel = model(
+    "Product",
+    new Schema({
+        title: { type: String, required: true },
+        price: { type: Number, required: true },
+        categories: {
+            type: [{ type: ObjectId, ref: "Category" }],
+            required: true
+        },
+        quantity: { type: Number, default: 0 },
+        description: { type: String },
+        images: { type: [String] }
     })
 );
-
-const ProductUpdateSchema = Joi.object({
-    title: Joi.string().min(3).max(255).optional(),
-    price: Joi.number().optional(),
-    description: Joi.string().optional(),
-    // category: Joi.array().items(Joi.string()).min(1).optional(),
-    category: Joi.string().optional(),
-    // image: Joi.array().items(Joi.string()).optional,
-    image: Joi.string().optional(),
-    quantity: Joi.number().optional(),
-    rating: Joi.object({ rate: Joi.number(), count: Joi.number() }).optional()
-})
-    .or("name", "description", "price", "category", "quantity")
-    .required();
-
-const productMongooseSchema = new Schema({
-    title: { type: String, required: true },
-    price: { type: Number, default: 0 },
-    description: { type: String },
-    category: { type: String, required: true },
-    image: { type: String },
-    quantity: { type: Number, default: 0 },
-    rating: {
-        rete: { type: Number, default: 0 },
-        count: { type: Number, default: 0 }
-    }
-});
-
-productMongooseSchema.index({
-    title: "text",
-    price: "text",
-    description: "text",
-    category: "text",
-    "rating.rete": "text"
-});
-
-const ProductDataModel = model("Product", productMongooseSchema);
 
 class ProductResModel {
     constructor(product) {
         this._id = product.id;
         this.title = product.title;
         this.price = product.price;
-        if (product.description) this.description = product.description;
-        this.category = product.category;
-        if (product.image) this.image = product.image;
+        this.categories = product.categories;
         this.quantity = product.quantity;
-        if (product.rating) this.rating = product.rating;
+        if (product.description) this.description = product.description;
+        if (product.images) this.images = product.images;
     }
 }
+
+const ProductCreateSchema = Joi.object({
+    title: Joi.string().required(),
+    price: Joi.number().required(),
+    categories: Joi.array().items(Joi.string()).min(1).required(),
+    quantity: Joi.number(),
+    description: Joi.string(),
+    images: Joi.array().items(Joi.string())
+});
+
+const ProductCreateManySchema = Joi.array().items(ProductCreateSchema);
+
+const ProductUpdateSchema = Joi.object({
+    title: Joi.string().min(3).max(255).optional(),
+    price: Joi.number().optional(),
+    categories: Joi.array().items(Joi.string()).min(1).optional(),
+    quantity: Joi.number().optional(),
+    description: Joi.string().optional(),
+    images: Joi.array().items(Joi.string()).optional()
+})
+    .or("title", "price", "categories", "quantity", "description", "images")
+    .required();
+
+const ProductFilterSchema = Joi.object({
+    price: Joi.object({ min: Joi.number(), max: Joi.number() }).optional(),
+    categories: Joi.array().items(Joi.string()).min(1).optional()
+})
+    .or("price", "categories")
+    .required();
 
 module.exports = {
     ProductCreateSchema,
     ProductCreateManySchema,
     ProductUpdateSchema,
     ProductDataModel,
-    ProductResModel
+    ProductResModel,
+    ProductFilterSchema
 };

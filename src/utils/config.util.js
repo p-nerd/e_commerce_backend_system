@@ -8,7 +8,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS) || 10;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "blablabla";
 const JWT_EXPIRES_IN_MINUTE =
     60 * (parseInt(process.env.JWT_EXPIRES_IN_MINUTE) || 60);
-const REDIS_URI = process.env.REDIS_URI || "redis://127.0.0.1:6379";
+const REDIS_URI = process.env.REDIS_URI || "redis://127con.0.0.1:6379";
 const DEFAULT_REDIS_EXPIRE = parseInt(process.env.DEFAULT_REDIS_EXPIRE) || 1800;
 const NODE_ENV = process.env.NODE_ENV || "production";
 const BASE_URL = process.env.BASE_API_PATH || "/api/v1";

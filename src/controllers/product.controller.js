@@ -8,10 +8,12 @@ const {
 const {
     ProductCreateSchema,
     ProductUpdateSchema,
-    ProductCreateManySchema
+    ProductCreateManySchema,
+    ProductFilterSchema
 } = require("../models/product.model");
 const { validate } = require("./../middlewares/validate.middleware");
 const { cacheProduct } = require("../middlewares/cache.middleware");
+const { set } = require("../services/utils.service");
 const productRouter = require("express").Router();
 
 const createProduct = async (req, res, next) => {
@@ -40,12 +42,56 @@ const createProductMany = async (req, res, next) => {
 
 const getProducts = async (req, res, next) => {
     try {
+        const sortby = set(req.query.sortby, "_id");
+        const order = req.query.order === "desc" ? -1 : 1;
+        const limit = set(req.query.limit, 30);
+        const page = set(req.query.page, 1);
+
+        const skip = (page - 1) * limit;
         const products = await productService.getMany(
-            req.query.sortby,
-            req.query.order,
-            req.query.limit
+            sortby,
+            order,
+            skip,
+            limit
         );
-        return response(res, "Get all products by the query", products);
+        return response(
+            res,
+            `Total ${products.length} products by the query`,
+            products
+        );
+    } catch (err) {
+        return next(err);
+    }
+};
+
+const filterProducts = async (req, res, next) => {
+    try {
+        const sortby = set(req.query.sortby, "_id");
+        const order = req.query.order === "desc" ? -1 : 1;
+        const limit = set(req.query.limit, 30);
+        const page = set(req.query.page, 1);
+        const skip = (page - 1) * limit;
+
+        const filters = req.body;
+
+        const args = {};
+
+        if (filters.price)
+            args.price = { $gte: filters.price.min, $lte: filters.price.max };
+        if (filters.categories) args.categories = { $in: filters.categories };
+
+        const products = await productService.filter(
+            sortby,
+            order,
+            skip,
+            limit,
+            args
+        );
+        return response(
+            res,
+            `Total ${products.length} products by the filtering`,
+            products
+        );
     } catch (err) {
         return next(err);
     }
@@ -92,14 +138,20 @@ const updateProduct = async (req, res, next) => {
 productRouter
     .route("/many")
     .post(
-        [validate(ProductCreateManySchema), authenticate, manager],
+        validate(ProductCreateManySchema),
+        authenticate,
+        manager,
         createProductMany
     );
 
 productRouter
+    .route("/filter")
+    .post(validate(ProductFilterSchema), authenticate, filterProducts);
+
+productRouter
     .route("/")
-    .post([validate(ProductCreateSchema), authenticate, manager], createProduct)
-    .get([authenticate], getProducts);
+    .post(validate(ProductCreateSchema), authenticate, manager, createProduct)
+    .get(authenticate, getProducts);
 
 productRouter
     .route("/:productId")

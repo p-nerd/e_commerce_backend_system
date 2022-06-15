@@ -1,5 +1,5 @@
 const { REDIS_URI, DEFAULT_REDIS_EXPIRE } = require("../utils/config.util");
-const logService = require("./../services/log.service");
+const { log } = require("./utils.service");
 
 class RedisError extends Error {
     constructor(message) {
@@ -14,10 +14,10 @@ class RedisService {
     constructor(uri) {
         this.client = require("redis").createClient({ url: uri });
         this.client.on("error", (err) => {
-            logService.info("Redis not connected\n", err);
+            log("Redis not connected\n", err);
         });
         this.client.connect().then(() => {
-            logService.info(`Redis connected successfully with ${REDIS_URI}`);
+            log(`Redis connected successfully with ${REDIS_URI}`);
         });
     }
     set = async function (key, value, ex = DEFAULT_REDIS_EXPIRE) {

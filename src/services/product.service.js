@@ -25,11 +25,22 @@ class ProductService {
             throw new InternalSeverError(err.message);
         }
     };
-    getMany = async (sortby = "_id", order = "asc", limit = 5) => {
+    getMany = async (sortby, order, skip, limit) => {
         try {
-            order = order === "asc" ? 1 : -1;
             const products = await ProductDataModel.find()
                 .sort({ [sortby]: order })
+                .skip(skip)
+                .limit(limit);
+            return products.map((product) => new ProductResModel(product));
+        } catch (err) {
+            throw new InternalSeverError(err.message);
+        }
+    };
+    filter = async (sortby, order, skip, limit, args) => {
+        try {
+            const products = await ProductDataModel.find(args)
+                .sort({ [sortby]: order })
+                .skip(skip)
                 .limit(limit);
             return products.map((product) => new ProductResModel(product));
         } catch (err) {
