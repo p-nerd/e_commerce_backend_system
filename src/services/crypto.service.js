@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { SALT_ROUNDS } = require("./../utils/config.util");
+const { SALT_ROUNDS } = require("../utils/config");
 
 class CryptoService {
     hash = async (password) => {

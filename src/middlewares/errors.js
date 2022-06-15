@@ -1,4 +1,4 @@
-const { response, NotFoundError } = require("../utils/response.util");
+const { response, NotFoundError } = require("../utils/response");
 
 const unknownRoute = (req, res) => {
     // return res.redirect("/api/v1/docs");

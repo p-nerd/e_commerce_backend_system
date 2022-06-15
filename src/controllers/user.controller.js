@@ -1,15 +1,15 @@
 const profileService = require("../services/profile.service");
 const userService = require("./../services/user.service");
 const cryptoService = require("../services/crypto.service");
-const { response } = require("../utils/response.util");
-const { validateId, validate } = require("../middlewares/validate.middleware");
+const { response } = require("../utils/response");
+const { validateId, validate } = require("../middlewares/validate");
 const { UserCreateSchema, UserUpdateSchema } = require("../models/user.model");
 const {
     authenticate,
     loggedUserOrAdmin,
     admin,
     rolePermission
-} = require("../middlewares/authorization.middleware");
+} = require("../middlewares/authorization");
 const userRouter = require("express").Router();
 
 const createUser = async (req, res, next) => {

@@ -1,9 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
-const { NODE_ENV, BASE_URL } = require("../utils/config.util");
-const { envs } = require("../utils/enums.util");
-const { setCorrelationId, requestLogger } = require("./logging.middleware");
-const swaggerConfig = require("../middlewares/swagger.middleware");
+const { NODE_ENV, BASE_URL } = require("../utils/config");
+const { envs } = require("../utils/enums");
+const { setCorrelationId, requestLogger } = require("./logging");
+const swaggerConfig = require("./swagger");
 
 module.exports = (app) => {
     app.use(express.json());

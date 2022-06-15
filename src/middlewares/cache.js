@@ -1,5 +1,5 @@
-const redisService = require("./../services/redis.service");
-const { response } = require("../utils/response.util");
+const redisService = require("../services/redis.service");
+const { response } = require("../utils/response");
 
 const cacheProduct = async (req, res, next) => {
     try {

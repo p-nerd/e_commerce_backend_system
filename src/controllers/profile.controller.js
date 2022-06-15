@@ -1,11 +1,11 @@
-const { BadRequestError, response } = require("../utils/response.util");
+const { BadRequestError, response } = require("../utils/response");
 const profileService = require("./../services/profile.service");
-const { validate } = require("../middlewares/validate.middleware");
+const { validate } = require("../middlewares/validate");
 const {
     ProfileCreateSchema,
     ProfileUpdateSchema
 } = require("../models/profile.model");
-const { authenticate } = require("./../middlewares/authorization.middleware");
+const { authenticate } = require("../middlewares/authorization");
 const profileRouter = require("express").Router();
 
 const createProfile = async (req, res, next) => {

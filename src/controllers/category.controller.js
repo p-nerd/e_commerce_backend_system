@@ -1,13 +1,13 @@
-const { BadRequestError, response } = require("./../utils/response.util");
+const { BadRequestError, response } = require("../utils/response");
 const categoryService = require("./../services/category.service");
 const {} = require("express");
 const categoryRouter = require("express").Router();
-const { validate } = require("./../middlewares/validate.middleware");
+const { validate } = require("../middlewares/validate");
 const {
     CategoryCreateSchema,
     CategoryUpdateSchema
 } = require("./../models/category.model");
-const { authenticate } = require("./../middlewares/authorization.middleware");
+const { authenticate } = require("../middlewares/authorization");
 
 const createCategory = async (req, res, next) => {
     try {

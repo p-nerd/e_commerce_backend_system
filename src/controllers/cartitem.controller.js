@@ -1,8 +1,8 @@
 const cartitemService = require("../services/cartitem.service");
 const productService = require("../services/product.service");
-const { response } = require("../utils/response.util");
-const { authenticate } = require("../middlewares/authorization.middleware");
-const { validate } = require("../middlewares/validate.middleware");
+const { response } = require("../utils/response");
+const { authenticate } = require("../middlewares/authorization");
+const { validate } = require("../middlewares/validate");
 const { CartitemCreateSchema } = require("../models/cartitem.model");
 const cartitemRouter = require("express").Router();
 

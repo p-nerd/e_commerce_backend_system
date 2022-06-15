@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { log } = require("../services/utils.service");
-const { MONGODB_URI } = require("./config.util");
+const { MONGODB_URI } = require("./config");
 
 module.exports = async () => {
     await mongoose.connect(MONGODB_URI);

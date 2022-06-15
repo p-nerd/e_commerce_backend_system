@@ -2,7 +2,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const {
     JWT_EXPIRES_IN_MINUTE,
     JWT_SECRET_KEY
-} = require("./../utils/config.util");
+} = require("../utils/config");
 
 class JwtService {
     token = (payload) =>

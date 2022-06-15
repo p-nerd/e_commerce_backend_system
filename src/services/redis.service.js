@@ -1,4 +1,4 @@
-const { REDIS_URI, DEFAULT_REDIS_EXPIRE } = require("../utils/config.util");
+const { REDIS_URI, DEFAULT_REDIS_EXPIRE } = require("../utils/config");
 const { log } = require("./utils.service");
 
 class RedisError extends Error {

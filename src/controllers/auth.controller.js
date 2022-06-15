@@ -1,7 +1,7 @@
-const { response } = require("../utils/response.util");
+const { response } = require("../utils/response");
 const authService = require("./../services/auth.service");
-const { authenticate } = require("../middlewares/authorization.middleware");
-const { validate } = require("../middlewares/validate.middleware");
+const { authenticate } = require("../middlewares/authorization");
+const { validate } = require("../middlewares/validate");
 const { LoginSchema } = require("../models/auth.model");
 const authRouter = require("express").Router();
 

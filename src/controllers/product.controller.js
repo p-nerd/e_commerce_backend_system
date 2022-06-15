@@ -1,18 +1,18 @@
-const { response } = require("../utils/response.util");
+const { response } = require("../utils/response");
 const productService = require("./../services/product.service");
 const redisService = require("./../services/redis.service");
 const {
     authenticate,
     manager
-} = require("../middlewares/authorization.middleware");
+} = require("../middlewares/authorization");
 const {
     ProductCreateSchema,
     ProductUpdateSchema,
     ProductCreateManySchema,
     ProductFilterSchema
 } = require("../models/product.model");
-const { validate } = require("./../middlewares/validate.middleware");
-const { cacheProduct } = require("../middlewares/cache.middleware");
+const { validate } = require("../middlewares/validate");
+const { cacheProduct } = require("../middlewares/cache");
 const { set } = require("../services/utils.service");
 const productRouter = require("express").Router();
 

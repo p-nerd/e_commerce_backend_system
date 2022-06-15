@@ -1,6 +1,6 @@
 const expressWinston = require("express-winston");
 const winston = require("winston");
-const { MONGODB_URI, MONGODB_TRANSPORT } = require("../utils/config.util");
+const { MONGODB_URI, MONGODB_TRANSPORT } = require("../utils/config");
 require("winston-mongodb");
 
 const consoleTransport = () =>

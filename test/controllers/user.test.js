@@ -4,7 +4,7 @@ const request = require("supertest")(app);
 const redisService = require("../../src/services/redis.service");
 const userService = require("./../../src/services/user.service");
 const cryptoService = require("./../../src/services/crypto.service");
-const { BASE_URL } = require("../../src/utils/config.util");
+const { BASE_URL } = require("../../src/utils/config");
 
 jest.mock("./../../src/services/user.service");
 jest.mock("./../../src/services/crypto.service");

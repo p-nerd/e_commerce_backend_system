@@ -1,7 +1,4 @@
-const {
-    RequestValidationError,
-    NotFoundError
-} = require("../utils/response.util");
+const { RequestValidationError, NotFoundError } = require("../utils/response");
 
 const concatErrorsDetails = (details) =>
     details.reduce((total, current) => total + current.message, "");

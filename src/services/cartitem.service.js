@@ -2,7 +2,7 @@ const {
     CartitemDataModel,
     CartitemResModel
 } = require("../models/cartitem.model");
-const { InternalSeverError } = require("../utils/response.util");
+const { InternalSeverError } = require("../utils/response");
 
 class CartitemService {
     saveOne = async (payload) => {

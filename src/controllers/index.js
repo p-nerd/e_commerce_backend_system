@@ -7,10 +7,10 @@ const profileRouter = require("./profile.controller");
 const {
     unknownRoute,
     errorHandler
-} = require("../middlewares/errors.middleware");
-const { errorLogger } = require("../middlewares/logging.middleware");
-const { NODE_ENV, BASE_URL } = require("../utils/config.util");
-const { envs } = require("../utils/enums.util");
+} = require("../middlewares/errors");
+const { errorLogger } = require("../middlewares/logging");
+const { NODE_ENV, BASE_URL } = require("../utils/config");
+const { envs } = require("../utils/enums");
 
 module.exports = async (app) => {
     const base = BASE_URL;

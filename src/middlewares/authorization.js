@@ -1,6 +1,6 @@
 const authService = require("../services/auth.service");
-const { UnauthorizedError } = require("../utils/response.util");
-const { roles } = require("../utils/enums.util");
+const { UnauthorizedError } = require("../utils/response");
+const { roles } = require("../utils/enums");
 
 const authenticate = async (req, res, next) => {
     try {

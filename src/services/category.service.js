@@ -2,7 +2,7 @@ const {
     CategoryDataModel,
     CategoryResModel
 } = require("./../models/category.model");
-const { InternalSeverError, NotFoundError } = require("./../utils/response.util");
+const { InternalSeverError, NotFoundError } = require("../utils/response");
 
 class CategoryService {
     saveOne = async (payload) => {
