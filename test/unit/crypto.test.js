@@ -1,4 +1,4 @@
-const cryptoService = require("./../../src/services/crypto.service");
+const cryptoService = require("../../src/services/crypto.service");
 
 describe("cryptoService.hash():", () => {
     const password = "hello1234";

@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const app = require("../../src/app");
 const request = require("supertest")(app);
 const redisService = require("../../src/services/redis.service");
-const userService = require("./../../src/services/user.service");
-const cryptoService = require("./../../src/services/crypto.service");
-const { BASE_URL } = require("../../src/utils/config");
+const userService = require("../../src/services/user.service");
+const cryptoService = require("../../src/services/crypto.service");
+const { BASE_API_PATH } = require("../../src/utils/config");
 
 jest.mock("./../../src/services/user.service");
 jest.mock("./../../src/services/crypto.service");
@@ -20,7 +20,7 @@ describe("Create user route:", () => {
     };
     it("return validation error", async () => {
         delete payload.password;
-        const response = await request.post(BASE_URL + "/users/").send(payload);
+        const response = await request.post(BASE_API_PATH + "/users/").send(payload);
         expect(response.status).toBe(400);
         expect(response.body.error).toBe(true);
         expect(response.body.success).toBe(false);
@@ -31,7 +31,7 @@ describe("Create user route:", () => {
             email: "shihab4t4000@gmail.com",
             password: "something"
         };
-        const response = await request.post(BASE_URL + "/users/").send(payload);
+        const response = await request.post(BASE_API_PATH + "/users/").send(payload);
         expect(response.status).toBe(201);
         expect(response.body.error).toBe(false);
         expect(response.body.success).toBe(true);

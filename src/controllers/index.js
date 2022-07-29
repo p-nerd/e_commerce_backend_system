@@ -9,11 +9,11 @@ const {
     errorHandler
 } = require("../middlewares/errors");
 const { errorLogger } = require("../middlewares/logging");
-const { NODE_ENV, BASE_URL } = require("../utils/config");
+const { NODE_ENV, BASE_API_PATH } = require("../utils/config");
 const { envs } = require("../utils/enums");
 
 module.exports = async (app) => {
-    const base = BASE_URL;
+    const base = BASE_API_PATH;
     app.use(base + "/users", userRouter);
     app.use(base + "/auths", authRouter);
     app.use(base + "/profiles", profileRouter);

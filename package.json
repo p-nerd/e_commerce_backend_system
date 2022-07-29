@@ -5,15 +5,21 @@
     "repository": "https://github.com/shihab4t/e-commerce-backend-system.git",
     "author": "Shihab Mahamud <shihab4t@gmail.com>",
     "license": "MIT",
+    "engines": {
+        "node": "^16.15.1"
+    },
+    "jest": {
+        "testEnvironment": "node"
+    },
     "scripts": {
-        "start": "node ./src/index.js",
-        "start:watch": "nodemon --ext .yml,.yaml,.js,.env,.json ./src/index.js",
-        "test": "jest",
-        "test:watch": "jest --watchAll"
+        "prod": "env-cmd -e prod node ./src/index.js",
+        "dev": "env-cmd --verbose -e dev nodemon --ext .yml,.yaml,.js,.env,.json ./src/index.js",
+        "test": "env-cmd -e test jest",
+        "test:watch": "env-cmd --verbose -e test jest --watchAll"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
-        "dotenv": "^16.0.1",
+        "env-cmd": "^10.1.0",
         "express": "^4.18.1",
         "express-winston": "^4.2.0",
         "joi": "^17.6.0",
